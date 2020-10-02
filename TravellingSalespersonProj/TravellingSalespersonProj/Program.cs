@@ -7,7 +7,6 @@ namespace TravellingSalespersonProj
         static void Main(string[] args)
         {
             DefaultGraphGenerator defaultGraphGen = new DefaultGraphGenerator();
-            defaultGraphGen.GenerateNodes();
         }
 
     }
