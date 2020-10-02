@@ -6,7 +6,8 @@ namespace TravellingSalespersonProj
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            DefaultGraphGenerator defaultGraphGen = new DefaultGraphGenerator();
         }
+
     }
 }
