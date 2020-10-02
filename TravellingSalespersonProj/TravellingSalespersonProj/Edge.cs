@@ -1,6 +1,6 @@
 ﻿namespace TravellingSalespersonProj
 {
-    class Edge
+    public class Edge
     {
         public float Weight { get; set; }
 
