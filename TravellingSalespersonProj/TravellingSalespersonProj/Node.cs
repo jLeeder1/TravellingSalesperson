@@ -5,11 +5,11 @@ namespace TravellingSalespersonProj
 {
     public class Node
     {
-        public Dictionary<string, int> Edges { get; set; }
+        public Dictionary<float, float> Edges { get; set; }
 
         public Node()
         {
-            Edges = new Dictionary<string, int>();
+            Edges = new Dictionary<float, float>();
         }
 
         // For testing
@@ -17,7 +17,7 @@ namespace TravellingSalespersonProj
         {
             string test = "";
 
-            foreach (KeyValuePair<string, int> entry in Edges)
+            foreach (KeyValuePair<float, float> entry in Edges)
             {
                 test += ($"Destination and weight: {entry.Key} {entry.Value}" + System.Environment.NewLine);
             }

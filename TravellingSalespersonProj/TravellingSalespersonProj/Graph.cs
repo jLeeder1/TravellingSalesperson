@@ -4,7 +4,7 @@ namespace TravellingSalespersonProj
 {
     public class Graph
     {
-        public Dictionary<string, Node> NodesInCity { get; set; }
+        public Dictionary<float, Node> NodesInCity { get; set; }
 
         public Graph()
         {

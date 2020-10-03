@@ -16,7 +16,7 @@ namespace TravellingSalespersonProj
 
             graph.NodesInCity = GenerateAllNodes();
 
-            foreach (KeyValuePair<string, Node> entry in graph.NodesInCity)
+            foreach (KeyValuePair<float, Node> entry in graph.NodesInCity)
             {
                 GenerateEdgesForCurrentNode(entry.Key, entry.Value);
             }
@@ -24,65 +24,51 @@ namespace TravellingSalespersonProj
             return graph;
         }
 
-        public Dictionary<string, Node> GenerateAllNodes()
+        public Dictionary<float, Node> GenerateAllNodes(int numberOfNodes = 4)
         {
-            Dictionary<string, Node> nodes = new Dictionary<string, Node>();
+            Dictionary<float, Node> nodes = new Dictionary<float, Node>();
 
-            for (int index = 1; index < 5; index++)
+            for (int index = 0; index < numberOfNodes; index++)
             {
-                string nodeLetter = ConvertIntToString.Convert(index);
-                nodes.Add(nodeLetter, new Node());
+                nodes.Add(index, new Node());
             }
             return nodes;
         }
 
-        public Dictionary<string, int> GenerateEdgesForCurrentNode(string startingNodeLetter, Node currentNode)
+        public Dictionary<float, float> GenerateEdgesForCurrentNode(float startingNodeId, Node currentNode)
         {
-            string[,] defaultEdges = GetEdgesWithWeightValues();
+            float[,] defaultEdges = GetEdgesWithWeightValues();
 
-            Dictionary<string, int> edges = new Dictionary<string, int>();
+            Dictionary<float, float> edges = new Dictionary<float, float>();
 
             for (int index = 0; index < defaultEdges.GetLength(0); index++)
             {
-                if(defaultEdges[index, 0].Equals(startingNodeLetter))
+                if(defaultEdges[index, 0] == startingNodeId)
                 {
-                    currentNode.Edges.Add(defaultEdges[index, 1], ConvertStringToInt(defaultEdges[index, 2]));
+                    currentNode.Edges.Add(defaultEdges[index, 1], defaultEdges[index, 2]);
                 }
             }
 
             return edges;
         }
 
-        private int ConvertStringToInt(string stringToConvert)
+        // Follows format: Starting node (0 = A, 1 = B etc), destination node, weight
+        private float[,] GetEdgesWithWeightValues()
         {
-            try
+            return new float[,]
             {
-                int numVal = Int32.Parse(stringToConvert);
-                return numVal;
-            }
-            catch (FormatException e)
-            {
-                Console.WriteLine(e.Message);
-                return 0;
-            }
-        }
-
-        private string[,] GetEdgesWithWeightValues()
-        {
-            return new string[,]
-            {
-                { "A", "B", "20" },
-                { "A", "C", "42" },
-                { "A", "D", "35" },
-                { "B", "A", "20" },
-                { "B", "C", "30" },
-                { "B", "D", "34" },
-                { "C", "A", "42" },
-                { "C", "B", "30" },
-                { "C", "D", "12" },
-                { "D", "A", "35" },
-                { "D", "B", "34" },
-                { "D", "C", "12" },
+                { 0, 1, 20 },
+                { 0, 2, 42 },
+                { 0, 3, 35 },
+                { 1, 0, 20 },
+                { 1, 2, 30 },
+                { 1, 3, 34 },
+                { 2, 0, 42 },
+                { 2, 1, 30 },
+                { 2, 3, 12 },
+                { 3, 0, 35 },
+                { 3, 1, 34 },
+                { 3, 2, 12 }
             };
         }
     }
