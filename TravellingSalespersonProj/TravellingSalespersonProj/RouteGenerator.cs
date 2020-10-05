@@ -7,22 +7,17 @@ namespace TravellingSalespersonProj
 {
     public class RouteGenerator
     {
-        public List<string[]> GenerateRoutes(int numberOfNodes, string startingNode)
+        public List<string[]> GenerateRoutes(int numberOfNodes, float startingNode)
         {
             long numberOfRoutes = CalculateMaximumAmountOfRoutes(numberOfNodes);
-            List<string> possibleNodes = CreateListOfPossibleNodes(numberOfNodes);
+            float[] possibleNodes = CreateListOfPossibleNodes(numberOfNodes);
 
             List<string[]> routes = CalculateRoutes(startingNode, numberOfRoutes, possibleNodes);
 
             return null;
         }
 
-        // Pass in or calculate all possible nodes (probably has to be a list)
-        // add starting node to beginning of arrayToReturn
-        // remove random element of list and add to array
-        // Add starting node to end of arrayToReturn
-
-        private long CalculateMaximumAmountOfRoutes(int numberOfNodes)
+        private long CalculateMaximumAmountOfRoutes(int numberOfNodes, bool isAnchored = true)
         {
             long numberOfRoutes = 1;
 
@@ -32,47 +27,55 @@ namespace TravellingSalespersonProj
                 numberOfRoutes *= index;
             }
 
+            if (isAnchored)
+            {
+                numberOfRoutes /= numberOfNodes;
+            }
+
             return numberOfRoutes - 1;
         }
 
-        private List<string> CreateListOfPossibleNodes(int numberOfNodes)
+        private float[] CreateListOfPossibleNodes(int numberOfNodes)
         {
-            List<string> possibleNodes = new List<string>();
+            float[] possibleNodes = new float[numberOfNodes];
 
-            for(int index = 1; index <= numberOfNodes; index++)
+            for(int index = 0; index <= numberOfNodes; index++)
             {
-                possibleNodes.Add(ConvertIntToString.Convert(index));
+                possibleNodes[index] = index;
             }
 
             return possibleNodes;
         }
 
-        private List<string[]> CalculateRoutes(string startingNode, long numberOfRoutes, List<string> possibleNodes)
+        private List<string[]> CalculateRoutes(float startingNode, long numberOfRoutes, float[] possibleNodes)
         {
             List<string[]> routes = new List<string[]>();
 
-            // Array for single route
-            string[] route = new string[possibleNodes.Count+1];
-            route[0] = possibleNodes.ElementAt(0);
-            possibleNodes.RemoveAt(0);
-            Random random = new Random();
+            float[] currentRoute = new float[possibleNodes.Length];
+            currentRoute[0] = startingNode;
+            float[] lastRoute = new float[possibleNodes.Length];
+            float[] nodesVisitedThisIteration = new float[possibleNodes.Length];
 
-            while(routes.Count < numberOfRoutes)
-            {/*
-                for(int index = 0; index < possibleNodes)
-                {
-                    int randomNum = random.Next(possibleNodes.Count);
-                    if (possibleNodes.ElementAt(randomNum) != null)
-                    {
-                        route[route.Length - 1] = possibleNodes.ElementAt(randomNum);
-                        possibleNodes.RemoveAt(randomNum);
-                    }
+            for(int outerIndex = 0; outerIndex < possibleNodes.Length - 1; outerIndex++)
+            {
 
-                    routes.Add(route);
-                } */
             }
 
+            lastRoute = currentRoute;
+
             return routes;
+        }
+
+        private float[] PopulateFirstRoute(float startingNode, int numberOfNodes)
+        {
+            float[] firstRoute = new float[numberOfNodes];
+
+            for (int index = 0; index < numberOfNodes - 1; index++)
+            {
+
+            }
+
+            return firstRoute;
         }
     }
 }
