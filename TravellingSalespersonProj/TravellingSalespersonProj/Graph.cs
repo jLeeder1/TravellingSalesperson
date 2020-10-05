@@ -2,9 +2,9 @@
 
 namespace TravellingSalespersonProj
 {
-    class Graph
+    public class Graph
     {
-        public List<Node> NodesInCity { get; set; }
+        public Dictionary<float, Node> NodesInCity { get; set; }
 
         public Graph()
         {

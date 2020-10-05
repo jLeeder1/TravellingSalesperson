@@ -1,15 +1,28 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace TravellingSalespersonProj
 {
-    class Node
+    public class Node
     {
-        public string NodeLetter { get; set; }
-        public List<Edge> Edges { get; set; }
+        public Dictionary<float, float> Edges { get; set; }
 
-        public Node(string nodeLetter)
+        public Node()
         {
-            this.NodeLetter = nodeLetter;
+            Edges = new Dictionary<float, float>();
+        }
+
+        // For testing
+        public string PrintAllDestinationsAndWeights()
+        {
+            string test = "";
+
+            foreach (KeyValuePair<float, float> entry in Edges)
+            {
+                test += ($"Destination and weight: {entry.Key} {entry.Value}" + System.Environment.NewLine);
+            }
+
+            return test;
         }
     }
 }
