@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using TravellingSalespersonProj.SecondAttempt;
 
 namespace TravellingSalespersonProj
 {
@@ -27,6 +28,7 @@ namespace TravellingSalespersonProj
             routeGenerator.GenerateRoutes(4, 0);
             */
 
+            /* Randomly generate routes by randomising array WORKS
             Random rnd = new Random();
             int[] MyRandomArray = new int[] { 1, 2, 3 };
 
@@ -36,6 +38,15 @@ namespace TravellingSalespersonProj
                 MyRandomArray = MyRandomArray.OrderBy(x => rnd.Next()).ToArray();
                 Thread.Sleep(2000);
             }
+
+            */
+
+            SecondAttempt.Graph graph = new SecondAttempt.Graph();
+            graph.PopulateGraphWithDefaultValues();
+            graph.PrintGraphOfNodes();
+
+            Menu menu = new Menu();
+            menu.RunMenu();
         }
 
         private static void Test(int[] array)
