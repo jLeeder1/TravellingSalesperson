@@ -2,17 +2,19 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace TravellingSalespersonProj.SecondAttempt
+namespace TravellingSalespersonProj
 {
     public class Menu
     {
         RandomRouteGenerator randomRouteGenerator;
         RouteEvaluator routeEvaluator;
+        Graph graph;
 
         public Menu()
         {
             this.randomRouteGenerator = new RandomRouteGenerator();
             this.routeEvaluator = new RouteEvaluator();
+            graph = new Graph();
         }
 
         public void RunMenu()
@@ -38,7 +40,7 @@ namespace TravellingSalespersonProj.SecondAttempt
                         RunWithDefaultGraph();
                         break;
                     case ConsoleKey.D2:
-                        Console.WriteLine($"{System.Environment.NewLine}Not implemented yet");
+                        RunWithFileReadGraph();
                         break;
                     case ConsoleKey.D3:
                         isProgramStillOpen = false;
@@ -53,12 +55,23 @@ namespace TravellingSalespersonProj.SecondAttempt
     
         private void RunWithDefaultGraph()
         {
-            Graph graph = new Graph();
             graph.RunDefaultGraphSetUp();
             int[] route = randomRouteGenerator.GenerateSingleRandomRoute(graph.GraphOfNodes.Count, 0);
             float costOfRoute = routeEvaluator.CalculateCostOfSingleRoute(route, graph);
             PrintRouteAndCalculation(route, costOfRoute);
             RunMenu();
+        }
+
+        private void RunWithFileReadGraph()
+        {
+            FileReader fileReader = new FileReader();
+            fileReader.ReadFileOfTypeCSV(graph);
+            /*
+            int[] route = randomRouteGenerator.GenerateSingleRandomRoute(graph.GraphOfNodes.Count, 0);
+            float costOfRoute = routeEvaluator.CalculateCostOfSingleRoute(route, graph);
+            PrintRouteAndCalculation(route, costOfRoute);
+            RunMenu();
+            */
         }
 
         private void PrintRouteAndCalculation(int[] route, float costOfRoute)

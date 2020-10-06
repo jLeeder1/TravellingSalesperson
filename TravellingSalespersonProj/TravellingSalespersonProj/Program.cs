@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using TravellingSalespersonProj.SecondAttempt;
 
 namespace TravellingSalespersonProj
 {
@@ -41,7 +38,7 @@ namespace TravellingSalespersonProj
 
             */
 
-            SecondAttempt.Graph graph = new SecondAttempt.Graph();
+            Graph graph = new Graph();
             graph.PopulateGraphWithDefaultValues();
             graph.PrintGraphOfNodes();
 

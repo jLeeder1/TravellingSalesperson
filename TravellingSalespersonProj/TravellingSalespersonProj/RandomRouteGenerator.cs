@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace TravellingSalespersonProj.SecondAttempt
+namespace TravellingSalespersonProj
 {
     public class RandomRouteGenerator
     {
