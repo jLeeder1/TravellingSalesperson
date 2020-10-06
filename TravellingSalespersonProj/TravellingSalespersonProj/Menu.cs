@@ -21,8 +21,9 @@ namespace TravellingSalespersonProj
         {
             Console.WriteLine($"Please enter a number from the choices below:{System.Environment.NewLine}");
             Console.WriteLine($"1: Run with default graph");
-            Console.WriteLine($"2: Run with ulysses16.csv");
-            Console.WriteLine($"3: End Program");
+            Console.WriteLine($"2: Run random route with ulysses16.csv");
+            Console.WriteLine($"3: Run all routes with ulysses16.csv");
+            Console.WriteLine($"4: End Program");
 
             MenuBackend();
         }
@@ -43,6 +44,9 @@ namespace TravellingSalespersonProj
                         RunWithFileReadGraph();
                         break;
                     case ConsoleKey.D3:
+                        Console.WriteLine("Not yet implemented");
+                        break;
+                    case ConsoleKey.D4:
                         isProgramStillOpen = false;
                         break;
                     default:
@@ -50,7 +54,6 @@ namespace TravellingSalespersonProj
                         break;
                 }
             }
-            
         }
     
         private void RunWithDefaultGraph()
@@ -66,12 +69,10 @@ namespace TravellingSalespersonProj
         {
             FileReader fileReader = new FileReader();
             fileReader.ReadFileOfTypeCSV(graph);
-            /*
             int[] route = randomRouteGenerator.GenerateSingleRandomRoute(graph.GraphOfNodes.Count, 0);
             float costOfRoute = routeEvaluator.CalculateCostOfSingleRoute(route, graph);
             PrintRouteAndCalculation(route, costOfRoute);
             RunMenu();
-            */
         }
 
         private void PrintRouteAndCalculation(int[] route, float costOfRoute)

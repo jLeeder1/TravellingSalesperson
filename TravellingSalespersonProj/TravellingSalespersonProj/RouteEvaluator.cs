@@ -12,7 +12,7 @@ namespace TravellingSalespersonProj
 
             for(int index = 0; index < route.Length -1; index++)
             {
-                if(index < route.Length - 2)
+                if(index < route.Length - 2 && graph.GraphOfNodes.ContainsKey(index))
                 {
                     float[] coordinatesToCompare = GetCoordinatesToCompare(route[index], route[index + 1], graph);
                     costOfRoute += CalculateCostOfEdge(coordinatesToCompare);
@@ -22,12 +22,19 @@ namespace TravellingSalespersonProj
             return costOfRoute;
         }
 
+        public void CalculateCostOfAllRoutes()
+        {
+
+        }
+
         private float CalculateCostOfEdge(float[] coordinates)
         {
-            float xCost = coordinates[0] + coordinates[2];
-            float yCost = coordinates[1] + coordinates[3];
+            float xBxA = MathF.Pow(coordinates[2] - coordinates[0], 2);
+            float yByA = MathF.Pow(coordinates[3] - coordinates[1], 2);
+            float sqrRoot = xBxA + yByA;
 
-            return xCost + yCost;
+            sqrRoot = MathF.Sqrt(sqrRoot);
+            return sqrRoot;
         }
 
         private float[] GetCoordinatesToCompare(int startingNode, int destinationNode, Graph graph)
