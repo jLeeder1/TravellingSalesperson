@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace TravellingSalespersonProj
 {
@@ -20,11 +18,6 @@ namespace TravellingSalespersonProj
             }
 
             return costOfRoute;
-        }
-
-        public void CalculateCostOfAllRoutes()
-        {
-
         }
 
         private float CalculateCostOfEdge(float[] coordinates)

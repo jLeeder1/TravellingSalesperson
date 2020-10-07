@@ -20,8 +20,6 @@ namespace TravellingSalespersonProj
                         {
                             float[] coordinates = { float.Parse(values[1]), float.Parse(values[2]) };
                             graph.AddNodeToGraph(int.Parse(values[0]), coordinates);
-
-                            Console.WriteLine($"Reading in these values: NodeID: {values[0]}    XPos: {values[1]}, YPos: {values[2]}");
                         }
                     }
                 }
