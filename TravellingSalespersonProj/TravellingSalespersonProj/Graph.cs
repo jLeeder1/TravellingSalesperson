@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace TravellingSalespersonProj
 {
@@ -14,13 +13,6 @@ namespace TravellingSalespersonProj
             GraphOfNodes = new Dictionary<int, float[]>();
         }
 
-        public void RunDefaultGraphSetUp()
-        {
-            PopulateGraphWithDefaultValues();
-            PrintGraphOfNodes();
-        }
-
-        // Add a check to see if the graph already contais that node?
         public void AddNodeToGraph(int nodeID, float[] nodeCoordinates)
         {
             if (!GraphOfNodes.ContainsKey(nodeID))
@@ -45,14 +37,6 @@ namespace TravellingSalespersonProj
             {
                 float[] coordinates = new float[] { defaultGraph[index, 1], defaultGraph[index, 2] };
                 AddNodeToGraph(Convert.ToInt32(defaultGraph[index, 0]), coordinates);
-            }
-        }
-
-        public void PrintGraphOfNodes()
-        {
-            foreach (KeyValuePair<int, float[]> entry in GraphOfNodes)
-            {
-                Console.WriteLine($"Node ID: {entry.Key}, Node Coordinates: {entry.Value[0]}, {entry.Value[1]}{System.Environment.NewLine}");
             }
         }
     }
