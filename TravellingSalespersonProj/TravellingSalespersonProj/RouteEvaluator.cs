@@ -8,7 +8,7 @@ namespace TravellingSalespersonProj
         {
             float costOfRoute = 0.0f;
 
-            for(int index = 0; index < route.Length -1; index++)
+            for(int index = 0; index <= route.Length -1; index++)
             {
                 if(index < route.Length - 2 && graph.GraphOfNodes.ContainsKey(index))
                 {

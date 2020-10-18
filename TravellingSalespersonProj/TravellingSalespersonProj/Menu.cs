@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using TravellingSalespersonProj.LocalSearch;
+using TravellingSalespersonProj.LocalSearchTutorial;
 
 namespace TravellingSalespersonProj
 {
@@ -48,6 +47,10 @@ namespace TravellingSalespersonProj
                         int timeToExecuteFor = int.Parse(Console.ReadLine());
                         RunTimeBasedRandomSearch(timeToExecuteFor);
                         break;
+                    case ConsoleKey.D5:
+                        RunWithFileReadGraph();
+                        RunLocalSearch();
+                        break;
                     default:
                         isProgramStillOpen = false;
                         break;
@@ -62,6 +65,7 @@ namespace TravellingSalespersonProj
             Console.WriteLine($"2: Run random route with ulysses16.csv");
             Console.WriteLine($"3: Run all routes with ulysses16.csv");
             Console.WriteLine($"4: Run ulysses16.csv with time based random search");
+            Console.WriteLine($"5: Run local search");
             Console.WriteLine($"Press enter key to end Program");
         }
 
@@ -84,6 +88,12 @@ namespace TravellingSalespersonProj
             ReadGraphFromFile();
             KeyValuePair<int[], float> routeAndTimeTaken = timeBasedEvaluator.CalculateBestRandomRouteInGivenTime(graph, timeToExecuteFor);
             DataDisplay.PrintRouteAndCalculation(routeAndTimeTaken.Key, routeAndTimeTaken.Value);
+        }
+
+        private void RunLocalSearch()
+        {
+            LocalSearch localSearch = new LocalSearch();
+            localSearch.RunLocalSearch(graph, randomRouteGenerator.GenerateSingleRandomRoute(graph.GraphOfNodes.Count, 0));
         }
 
         private void ReadGraphFromFile()
