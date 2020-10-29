@@ -13,7 +13,7 @@ namespace TravellingSalespersonProj
             }
         }
 
-        public static void PrintRouteAndCalculation(int[] route, float costOfRoute)
+        public static void PrintRouteAndCalculation(int[] route, double costOfRoute)
         {
             string routePath = String.Empty;
 

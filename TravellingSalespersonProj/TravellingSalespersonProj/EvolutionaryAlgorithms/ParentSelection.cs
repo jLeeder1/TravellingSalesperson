@@ -18,15 +18,15 @@ namespace TravellingSalespersonProj.EvolutionaryAlgorithms
 
         public Route[] ParentRouletteSelection(List<Route> currentPopulation, int numberOfParentsNeeded = 2)
         {
-            float sumOfFitnesses = SumAllParentFitnesses(currentPopulation);
+            double sumOfFitnesses = SumAllParentFitnesses(currentPopulation);
 
             rouletteWheel = PopulateRouletteWheelWithWeightedFitnesses(sumOfFitnesses, currentPopulation);
             return null;
         }
 
-        private float SumAllParentFitnesses(List<Route> currentPopulation)
+        private double SumAllParentFitnesses(List<Route> currentPopulation)
         {
-            float sumOfFitnesses = 0.0f;
+            double sumOfFitnesses = 0.0f;
 
             foreach(Route currentIndividual in currentPopulation)
             {
@@ -41,15 +41,15 @@ namespace TravellingSalespersonProj.EvolutionaryAlgorithms
          * The float represents the lower boundary of the Routes segment on the wheel
          * The upper boundary will then be the lower boundary on the next element in the list
          */
-        private List<WheelSegment> PopulateRouletteWheelWithWeightedFitnesses(float sumOfFitnesses, List<Route> currentPopulation)
+        private List<WheelSegment> PopulateRouletteWheelWithWeightedFitnesses(double sumOfFitnesses, List<Route> currentPopulation)
         {
-            float currentSegmentStartPosition = 0.0f;
+            double currentSegmentStartPosition = 0.0f;
             List<WheelSegment> rouletteWheel = new List<WheelSegment>();
 
             foreach(Route currentIndividual in currentPopulation)
             {
-                float individualPercentageOfWheel = currentIndividual.RouteCost / sumOfFitnesses;
-                float lowerBound = currentSegmentStartPosition + individualPercentageOfWheel;
+                double individualPercentageOfWheel = currentIndividual.RouteCost / sumOfFitnesses;
+                double lowerBound = currentSegmentStartPosition + individualPercentageOfWheel;
 
                 rouletteWheel.Add(new WheelSegment(currentIndividual, lowerBound));
 
@@ -65,7 +65,7 @@ namespace TravellingSalespersonProj.EvolutionaryAlgorithms
          */
         private Route[] PickRandomParentsFromWheel(int numberOfParents)
         {
-            
+            return null;
         }
     }
 }
