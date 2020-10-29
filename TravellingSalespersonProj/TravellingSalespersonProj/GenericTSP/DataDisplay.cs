@@ -19,7 +19,7 @@ namespace TravellingSalespersonProj
 
             foreach (int nodeId in route)
             {
-                routePath = $"{routePath} {nodeId.ToString()}";
+                routePath = $"{routePath} {nodeId}";
             }
 
             Console.WriteLine($"{System.Environment.NewLine}The route taken was {routePath} with a cost of {costOfRoute}");

@@ -48,7 +48,7 @@ namespace TravellingSalespersonProj
                         RunTimeBasedRandomSearch(timeToExecuteFor);
                         break;
                     case ConsoleKey.D5:
-                        RunWithFileReadGraph();
+                        ReadGraphFromFile();
                         RunLocalSearch();
                         break;
                     default:
@@ -93,7 +93,8 @@ namespace TravellingSalespersonProj
         private void RunLocalSearch()
         {
             LocalSearch localSearch = new LocalSearch();
-            localSearch.RunLocalSearch(graph, randomRouteGenerator.GenerateSingleRandomRoute(graph.GraphOfNodes.Count, 0));
+            Route bestRoute = localSearch.RunLocalSearch(graph, randomRouteGenerator.GenerateSingleRandomRoute(graph.GraphOfNodes.Count, 0));
+            DataDisplay.PrintRouteAndCalculation(bestRoute.RouteIds, bestRoute.RouteCost);
         }
 
         private void ReadGraphFromFile()
