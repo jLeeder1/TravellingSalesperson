@@ -5,12 +5,12 @@ namespace TravellingSalespersonProj.EvolutionaryAlgorithms
     public class WheelSegment
     {
         public Route Route { get; set; }
-        public double LowerBound { get; set; }
+        public double UpperBound { get; set; }
 
-        public WheelSegment(Route route, double lowerBound)
+        public WheelSegment(Route route, double upperBound)
         {
             Route = route;
-            LowerBound = lowerBound;
+            UpperBound = upperBound;
         }
     }
 }

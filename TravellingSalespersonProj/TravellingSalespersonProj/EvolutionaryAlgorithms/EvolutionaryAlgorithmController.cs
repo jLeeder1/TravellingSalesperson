@@ -8,6 +8,9 @@ namespace TravellingSalespersonProj.EvolutionaryAlgorithms
     {
         private readonly RandomRouteGenerator randomRouteGenerator;
         private readonly RouteEvaluator routeEvaluator;
+        private readonly ParentSelection parentSelection;
+
+
         private List<Route> populationOne;
         private List<Route> populationTwo;
         private bool isUsingPopulationOne;
@@ -19,6 +22,7 @@ namespace TravellingSalespersonProj.EvolutionaryAlgorithms
         {
             randomRouteGenerator = new RandomRouteGenerator();
             routeEvaluator = new RouteEvaluator();
+            parentSelection = new ParentSelection();
             populationOne = new List<Route>();
             populationTwo = new List<Route>();
             isUsingPopulationOne = true;
@@ -26,28 +30,29 @@ namespace TravellingSalespersonProj.EvolutionaryAlgorithms
             
         }
 
-        public Route RunEvolutionaryAlgorithm(int sizeOfPopulation, int numberOfNodes, int startingNode, Graph graph)
+        public Route RunEvolutionaryAlgorithm(int sizeOfPopulation, int startingNode, Graph graph)
         {
-            AddInitialBestRouteForGenerationZero(numberOfNodes, startingNode, graph);
-            this.populationOne = InitialisePoplulation(sizeOfPopulation, numberOfNodes, startingNode, graph);
+            AddInitialBestRouteForGenerationZero(startingNode, graph);
+            this.populationOne = InitialisePoplulation(sizeOfPopulation, startingNode, graph);
 
             bool terminationCondition = true;
 
             while (terminationCondition)
             {
-
+                //parentSelection.ParentRouletteSelection(populationOne);
+                parentSelection.ParentTournamentSelection(populationOne, 10);
             }
 
             return null;
         }
 
-        private List<Route> InitialisePoplulation(int sizeOfPopulation, int numberOfNodes, int startingNode, Graph graph)
+        private List<Route> InitialisePoplulation(int sizeOfPopulation, int startingNode, Graph graph)
         {
             List<Route> tempPopulation = new List<Route>();
 
             for(int index = 0; index < sizeOfPopulation; index++)
             {
-                int[] routeIds = randomRouteGenerator.GenerateSingleRandomRoute(numberOfNodes, startingNode);
+                int[] routeIds = randomRouteGenerator.GenerateSingleRandomRoute(graph.GraphOfNodes.Count, startingNode);
                 float routeCost = routeEvaluator.CalculateCostOfSingleRoute(routeIds, graph);
 
                 Route currentRoute = new Route(routeIds, routeCost);
@@ -55,6 +60,7 @@ namespace TravellingSalespersonProj.EvolutionaryAlgorithms
                 Route currentBestRoute = BestRouteInGeneration.ElementAt(0).Value;
                 if (currentRoute.RouteCost < currentBestRoute.RouteCost)
                 {
+                    BestRouteInGeneration.Remove(0);
                     BestRouteInGeneration.Add(0, currentRoute);
                 }
 
@@ -64,10 +70,10 @@ namespace TravellingSalespersonProj.EvolutionaryAlgorithms
             return tempPopulation;
         }
 
-        private void AddInitialBestRouteForGenerationZero(int numberOfNodes, int startingNode, Graph graph)
+        private void AddInitialBestRouteForGenerationZero(int startingNode, Graph graph)
         {
             // Adds a random initial best route for the generation
-            int[] tempRoute = randomRouteGenerator.GenerateSingleRandomRoute(numberOfNodes, startingNode);
+            int[] tempRoute = randomRouteGenerator.GenerateSingleRandomRoute(graph.GraphOfNodes.Count, startingNode);
             float tempRouteCost = routeEvaluator.CalculateCostOfSingleRoute(tempRoute, graph);
             BestRouteInGeneration.Add(0, new Route(tempRoute, tempRouteCost));
         }
