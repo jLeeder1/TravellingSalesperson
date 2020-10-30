@@ -36,6 +36,32 @@ namespace TravellingSalespersonProj.EvolutionaryAlgorithms
             return selectedParents;
         }
 
+        public List<Route> DefaultTournamentSelection(List<Route> currentPopulation, int tournamentSize)
+        {
+            List<Route> parentPopulation = new List<Route>();
+            List<Route> parentSample = new List<Route>();
+
+            while(parentPopulation.Count <= currentPopulation.Count - 1)
+            {
+                // Generates sample for this tournament
+                for(int index = 0; index <= tournamentSize; index++)
+                {
+                    parentSample.Add(currentPopulation.ElementAt(random.Next(0, currentPopulation.Count - 1)));
+                }
+
+                // Sorts the routes by their cost
+                parentSample.Sort((x, y) => x.RouteCost.CompareTo(y.RouteCost));
+
+                // Get best individual (lowest route score) and add them to the parentPopulation
+                Route bestIndividualinTournament = parentSample.First();
+                parentPopulation.Add(bestIndividualinTournament);
+
+                parentSample.Clear();
+            }
+
+            return parentPopulation;
+        }
+
         public Route[] ParentRouletteSelection(List<Route> currentPopulation, int numberOfParentsNeeded = 2)
         {
             double sumOfFitnesses = SumAllParentFitnesses(currentPopulation);
