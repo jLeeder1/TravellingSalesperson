@@ -13,13 +13,13 @@ namespace TravellingSalespersonProj
             }
         }
 
-        public static void PrintRouteAndCalculation(int[] route, float costOfRoute)
+        public static void PrintRouteAndCalculation(int[] route, double costOfRoute)
         {
             string routePath = String.Empty;
 
             foreach (int nodeId in route)
             {
-                routePath = $"{routePath} {nodeId.ToString()}";
+                routePath = $"{routePath} {nodeId}";
             }
 
             Console.WriteLine($"{System.Environment.NewLine}The route taken was {routePath} with a cost of {costOfRoute}");

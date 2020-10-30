@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using TravellingSalespersonProj.EvolutionaryAlgorithms;
 using TravellingSalespersonProj.LocalSearchTutorial;
 
 namespace TravellingSalespersonProj
@@ -11,6 +12,7 @@ namespace TravellingSalespersonProj
         private readonly Graph graph;
         private readonly FileReader fileReader;
         private readonly TimeBasedEvaluator timeBasedEvaluator;
+        private readonly EvolutionaryAlgorithmController evolutionaryAlgorithmController;
 
         public Menu()
         {
@@ -19,6 +21,7 @@ namespace TravellingSalespersonProj
             this.graph = new Graph();
             this.fileReader = new FileReader();
             this.timeBasedEvaluator = new TimeBasedEvaluator();
+            this.evolutionaryAlgorithmController = new EvolutionaryAlgorithmController();
         }
 
         public void RunMenu()
@@ -48,8 +51,12 @@ namespace TravellingSalespersonProj
                         RunTimeBasedRandomSearch(timeToExecuteFor);
                         break;
                     case ConsoleKey.D5:
-                        RunWithFileReadGraph();
+                        ReadGraphFromFile();
                         RunLocalSearch();
+                        break;
+                    case ConsoleKey.D6:
+                        ReadGraphFromFile();
+                        RunEvolutionaryAlgorithm();
                         break;
                     default:
                         isProgramStillOpen = false;
@@ -66,6 +73,7 @@ namespace TravellingSalespersonProj
             Console.WriteLine($"3: Run all routes with ulysses16.csv");
             Console.WriteLine($"4: Run ulysses16.csv with time based random search");
             Console.WriteLine($"5: Run local search");
+            Console.WriteLine($"6: Run evolutionary algorithm");
             Console.WriteLine($"Press enter key to end Program");
         }
 
@@ -93,7 +101,13 @@ namespace TravellingSalespersonProj
         private void RunLocalSearch()
         {
             LocalSearch localSearch = new LocalSearch();
-            localSearch.RunLocalSearch(graph, randomRouteGenerator.GenerateSingleRandomRoute(graph.GraphOfNodes.Count, 0));
+            Route bestRoute = localSearch.RunLocalSearch(graph, randomRouteGenerator.GenerateSingleRandomRoute(graph.GraphOfNodes.Count, 0));
+            DataDisplay.PrintRouteAndCalculation(bestRoute.RouteIds, bestRoute.RouteCost);
+        }
+
+        private void RunEvolutionaryAlgorithm()
+        {
+            evolutionaryAlgorithmController.RunEvolutionaryAlgorithm(100, 0 , graph);
         }
 
         private void ReadGraphFromFile()
