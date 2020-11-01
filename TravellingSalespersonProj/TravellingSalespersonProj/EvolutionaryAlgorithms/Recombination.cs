@@ -97,7 +97,7 @@ namespace TravellingSalespersonProj.EvolutionaryAlgorithms
                     continue;
                 }
 
-                if (!offspringOneRoute.Contains(parentOneRoute[iteratorIndex]))
+                if (!offspringOneRoute.Contains(parentTwoRoute[iteratorIndex]))
                 {
                     offspringOneRoute[currentPositionInChildRoute] = parentTwoRoute[iteratorIndex];
                     numElementsToCopy--;

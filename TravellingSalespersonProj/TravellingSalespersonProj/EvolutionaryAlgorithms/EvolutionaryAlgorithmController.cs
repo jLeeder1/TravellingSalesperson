@@ -48,13 +48,10 @@ namespace TravellingSalespersonProj.EvolutionaryAlgorithms
                 // Generate a list of individuals offspring will be generated from
                 List<Route> potentialParents = new List<Route>();
 
-                while (potentialParents.Count <= parentPopulation.Count) // THERE IS A PROBLEM HERE
-                {
-                    potentialParents.AddRange(parentSelection.DefaultTournamentSelection(parentPopulation, 10));
-                }
+                potentialParents.AddRange(parentSelection.DefaultTournamentSelection(parentPopulation, 10));
 
                 // Generate an offspring population
-                while (offspringPopulation.Count <= parentPopulation.Count)
+                while (offspringPopulation.Count < parentPopulation.Count)
                 {
                     // Pick two random parents from the pool of potential parents
                     Route parentOne = potentialParents.ElementAt(random.Next(0, potentialParents.Count - 1));
