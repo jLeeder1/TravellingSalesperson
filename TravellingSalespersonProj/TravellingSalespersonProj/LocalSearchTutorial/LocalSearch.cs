@@ -1,16 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using TravellingSalespersonProj.GenericTSP;
 
 namespace TravellingSalespersonProj.LocalSearchTutorial
 {
     public class LocalSearch
     {
         private RouteEvaluator routeEvaluator;
-
+        private TourFormatter tourFormatter;
         public LocalSearch()
         {
             routeEvaluator = new RouteEvaluator();
+            tourFormatter = new TourFormatter();
         }
 
         public Route RunLocalSearch(Graph graph, int[] initialRoute)
@@ -43,35 +45,17 @@ namespace TravellingSalespersonProj.LocalSearchTutorial
         {
             List<int[]> listOfNeighbourhoods = new List<int[]>();
 
-            int[] formatedRoute = RemoveStartAndEndNodeToRoute(initialRoute);
+            int[] formatedRoute = tourFormatter.RemoveStartAndEndNodeToRoute(initialRoute);
 
             for (int index = 0; index <= formatedRoute.Length - 2; index++)
             {
                 for (int secondIndex = index + 1; secondIndex <= formatedRoute.Length - 1; secondIndex++)
                 {
                     int[] swappedRoute = TwoOptSwap(formatedRoute, index, secondIndex);
-                    listOfNeighbourhoods.Add(AddStartAndEndNodeToRoute(initialRoute[0], swappedRoute));
+                    listOfNeighbourhoods.Add(tourFormatter.AddStartAndEndNodeToRoute(initialRoute[0], swappedRoute));
                 }
             }
             return listOfNeighbourhoods;
-        }
-
-        private int[] AddStartAndEndNodeToRoute(int startAndEndNodeId, int[] route)
-        {
-            int[] completeRoute = new int[route.Length + 2];
-            completeRoute[0] = startAndEndNodeId;
-            Array.Copy(route, 0, completeRoute, 1, route.Length);
-            completeRoute[completeRoute.Length - 1] = startAndEndNodeId;
-
-            return completeRoute;
-        }
-
-        private int[] RemoveStartAndEndNodeToRoute(int[] route)
-        {
-            int[] formattedRoute = new int[route.Length - 2];
-            Array.Copy(route, 1, formattedRoute, 0, route.Length - 2);
-
-            return formattedRoute;
         }
 
         private void TESTMETHOD(List<int[]> test)

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using TravellingSalespersonProj.LocalSearchTutorial;
 
@@ -9,11 +10,12 @@ namespace TravellingSalespersonProj.EvolutionaryAlgorithms
         private readonly RandomRouteGenerator randomRouteGenerator;
         private readonly RouteEvaluator routeEvaluator;
         private readonly ParentSelection parentSelection;
+        private readonly Recombination recombination;
+        private readonly Random random;
 
 
-        private List<Route> populationOne;
-        private List<Route> populationTwo;
-        private bool isUsingPopulationOne;
+        private List<Route> parentPopulation;
+        private List<Route> offspringPopulation;
         
 
         public Dictionary<int, Route> BestRouteInGeneration { get; set; }
@@ -23,27 +25,48 @@ namespace TravellingSalespersonProj.EvolutionaryAlgorithms
             randomRouteGenerator = new RandomRouteGenerator();
             routeEvaluator = new RouteEvaluator();
             parentSelection = new ParentSelection();
-            populationOne = new List<Route>();
-            populationTwo = new List<Route>();
-            isUsingPopulationOne = true;
+            parentSelection = new ParentSelection();
+            recombination = new Recombination();
+            random = new Random();
+
+            parentPopulation = new List<Route>();
+            offspringPopulation = new List<Route>();
             BestRouteInGeneration = new Dictionary<int, Route>();
             
         }
 
-        public Route RunEvolutionaryAlgorithm(int sizeOfPopulation, int startingNode, Graph graph)
+        public Dictionary<int, Route> RunEvolutionaryAlgorithm(int sizeOfPopulation, int startingNode, int numOfGenerations, Graph graph)
         {
             AddInitialBestRouteForGenerationZero(startingNode, graph);
-            this.populationOne = InitialisePoplulation(sizeOfPopulation, startingNode, graph);
+            this.parentPopulation = InitialisePoplulation(sizeOfPopulation, startingNode, graph);
 
-            bool terminationCondition = true;
-
-            while (terminationCondition)
+            for(int generationNumber = 0; generationNumber < numOfGenerations; generationNumber++)
             {
                 //parentSelection.ParentRouletteSelection(populationOne);
-                parentSelection.ParentTournamentSelection(populationOne, 10);
+                //List<Route> parents = parentSelection.ParentTournamentSelection(populationOne, 10);
+
+                // Generate a list of individuals offspring will be generated from
+                List<Route> potentialParents = new List<Route>();
+
+                potentialParents.AddRange(parentSelection.DefaultTournamentSelection(parentPopulation, 10));
+
+                // Generate an offspring population
+                while (offspringPopulation.Count < parentPopulation.Count)
+                {
+                    // Pick two random parents from the pool of potential parents
+                    Route parentOne = potentialParents.ElementAt(random.Next(0, potentialParents.Count - 1));
+                    Route parentTwo = potentialParents.ElementAt(random.Next(0, potentialParents.Count - 1));
+
+                    offspringPopulation.AddRange(recombination.RunRecombination(parentOne, parentTwo));
+                }
+
+                CalculateRouteCostsForIndividualsInGeneration(offspringPopulation, graph);
+                FindBestRouteInGeneration(generationNumber, offspringPopulation);
+
+                ResetGenerations(parentPopulation, offspringPopulation);
             }
 
-            return null;
+            return BestRouteInGeneration;
         }
 
         private List<Route> InitialisePoplulation(int sizeOfPopulation, int startingNode, Graph graph)
@@ -76,6 +99,28 @@ namespace TravellingSalespersonProj.EvolutionaryAlgorithms
             int[] tempRoute = randomRouteGenerator.GenerateSingleRandomRoute(graph.GraphOfNodes.Count, startingNode);
             float tempRouteCost = routeEvaluator.CalculateCostOfSingleRoute(tempRoute, graph);
             BestRouteInGeneration.Add(0, new Route(tempRoute, tempRouteCost));
+        }
+
+        private void CalculateRouteCostsForIndividualsInGeneration(List<Route> population, Graph graph)
+        {
+            foreach(Route individual in population)
+            {
+                individual.RouteCost = routeEvaluator.CalculateCostOfSingleRoute(individual.RouteIds, graph);
+            }
+        }
+
+        private void FindBestRouteInGeneration(int generationNumber, List<Route> population)
+        {
+            population.Sort((x, y) => x.RouteCost.CompareTo(y.RouteCost));
+
+            BestRouteInGeneration[generationNumber] = population.First();
+        }
+
+        private void ResetGenerations(List<Route> parentPopulation, List<Route> offspringPopulation)
+        {
+            parentPopulation.Clear();
+            parentPopulation.AddRange(offspringPopulation);
+            offspringPopulation.Clear();
         }
     }
 }

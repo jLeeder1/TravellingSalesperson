@@ -107,7 +107,9 @@ namespace TravellingSalespersonProj
 
         private void RunEvolutionaryAlgorithm()
         {
-            evolutionaryAlgorithmController.RunEvolutionaryAlgorithm(100, 0 , graph);
+            Dictionary<int, Route> bestRoutes = evolutionaryAlgorithmController.RunEvolutionaryAlgorithm(100, 0, 100, graph);
+            DataDisplay.PrintDictionaryOfBestRoutes(bestRoutes);
+            DataDisplay.PrintBestRouteOverall(bestRoutes);
         }
 
         private void ReadGraphFromFile()
