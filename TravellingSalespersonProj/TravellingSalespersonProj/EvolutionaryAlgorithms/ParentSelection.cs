@@ -9,7 +9,7 @@ namespace TravellingSalespersonProj.EvolutionaryAlgorithms
     public class ParentSelection
     {
         private List<WheelSegment> rouletteWheel;
-        private Random random;
+        private readonly Random random;
 
         public ParentSelection()
         {

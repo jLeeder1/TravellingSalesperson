@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
 
 namespace TravellingSalespersonProj
 {
@@ -38,6 +39,49 @@ namespace TravellingSalespersonProj
                 float[] coordinates = new float[] { defaultGraph[index, 1], defaultGraph[index, 2] };
                 AddNodeToGraph(Convert.ToInt32(defaultGraph[index, 0]), coordinates);
             }
+        }
+
+        /*
+         * Format: [originx, originy, destinationx, destinationy]
+         */
+        public float CalculateCostOfEdge(float[] coordinates)
+        {
+            float xBxA = MathF.Pow(coordinates[2] - coordinates[0], 2);
+            float yByA = MathF.Pow(coordinates[3] - coordinates[1], 2);
+            float sqrRoot = xBxA + yByA;
+
+            sqrRoot = MathF.Sqrt(sqrRoot);
+            return sqrRoot;
+        }
+
+        public int GetClosestCity(int currentCity, List<int> visitedCities)
+        {
+            int closestCity = int.MaxValue;
+            float lowestCostEdge = float.MaxValue;
+
+            float[] currentCityCoordinates = GraphOfNodes[currentCity];
+
+            foreach (KeyValuePair<int, float[]> node in GraphOfNodes)
+            {
+                if(node.Key == currentCity || visitedCities.Contains(node.Key))
+                {
+                    continue;
+                }
+
+                List<float> coordinatesToCompare = new List<float>();
+                coordinatesToCompare.AddRange(currentCityCoordinates);
+                coordinatesToCompare.AddRange(node.Value);
+
+                float costOFCurrentEdge = CalculateCostOfEdge(coordinatesToCompare.ToArray());
+
+                if(costOFCurrentEdge < lowestCostEdge)
+                {
+                    lowestCostEdge = costOFCurrentEdge;
+                    closestCity = node.Key;
+                }
+            }
+
+            return closestCity;
         }
     }
 }

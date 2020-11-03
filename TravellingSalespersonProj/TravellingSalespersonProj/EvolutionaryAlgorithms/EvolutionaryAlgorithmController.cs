@@ -98,6 +98,12 @@ namespace TravellingSalespersonProj.EvolutionaryAlgorithms
             // Adds a random initial best route for the generation
             int[] tempRoute = randomRouteGenerator.GenerateSingleRandomRoute(graph.GraphOfNodes.Count, startingNode);
             float tempRouteCost = routeEvaluator.CalculateCostOfSingleRoute(tempRoute, graph);
+
+            if(BestRouteInGeneration.ContainsKey(0))
+            {
+                BestRouteInGeneration.Remove(0);
+            }
+
             BestRouteInGeneration.Add(0, new Route(tempRoute, tempRouteCost));
         }
 
