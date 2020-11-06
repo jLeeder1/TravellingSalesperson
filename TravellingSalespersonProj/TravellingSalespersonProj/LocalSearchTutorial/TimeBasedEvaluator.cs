@@ -16,10 +16,10 @@ namespace TravellingSalespersonProj.LocalSearchTutorial
             this.routeEvaluator = new RouteEvaluator();
         }
 
-        public KeyValuePair<int[], float> CalculateBestRandomRouteInGivenTime(Graph graph, int timeToExecuteFor)
+        public KeyValuePair<int[], double> CalculateBestRandomRouteInGivenTime(Graph graph, int timeToExecuteFor)
         {
             int[] lowestCostRoute = new int[graph.GraphOfNodes.Count + 1];
-            float currentLowestCostRoute = 0;
+            double currentLowestCostRoute = 0;
             int timeToExecuteForInMilliSec = timeToExecuteFor * 1000;
             var now = DateTime.Now;
 
@@ -27,7 +27,7 @@ namespace TravellingSalespersonProj.LocalSearchTutorial
             {
                 // This is duplicated in menu. Must be a better layout than copy paste
                 int[] route = randomRouteGenerator.GenerateSingleRandomRoute(graph.GraphOfNodes.Count, 0);
-                float costOfRoute = routeEvaluator.CalculateCostOfSingleRoute(route, graph);
+                double costOfRoute = routeEvaluator.CalculateCostOfSingleRoute(route, graph);
 
                 if(IsLowestCostOfRouteSoFar(currentLowestCostRoute, costOfRoute))
                 {
@@ -36,10 +36,10 @@ namespace TravellingSalespersonProj.LocalSearchTutorial
                 }
             }
 
-            return new KeyValuePair<int[], float>(lowestCostRoute, currentLowestCostRoute);
+            return new KeyValuePair<int[], double>(lowestCostRoute, currentLowestCostRoute);
         }
 
-        private bool IsLowestCostOfRouteSoFar(float currentLowestCostRoute, float costOfCurrentRoute)
+        private bool IsLowestCostOfRouteSoFar(double currentLowestCostRoute, double costOfCurrentRoute)
         {
             if(currentLowestCostRoute == 0 || costOfCurrentRoute < currentLowestCostRoute)
             {

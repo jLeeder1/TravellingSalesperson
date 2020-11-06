@@ -97,11 +97,11 @@ namespace TravellingSalespersonProj.LocalSearchTutorial
         private Route FindBestTourInNeighbourhood(List<int[]> routes, Graph graph)
         {
             int[] bestRoute = new int[routes.ElementAt(0).Length];
-            float bestCost = 0;
+            double bestCost = 0;
 
             foreach (int[] route in routes)
             {
-                float routeCost = routeEvaluator.CalculateCostOfSingleRoute(route, graph);
+                double routeCost = routeEvaluator.CalculateCostOfSingleRoute(route, graph);
 
                 if(bestCost == 0 || routeCost < bestCost)
                 {

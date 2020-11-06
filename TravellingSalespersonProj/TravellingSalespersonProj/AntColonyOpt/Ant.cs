@@ -31,7 +31,7 @@ namespace TravellingSalespersonProj.AntColonyOpt
             currentRoute.Add(startEndCity);
             int[] currentRouteArray = currentRoute.ToArray();
 
-            float routeCost = routeEvaluator.CalculateCostOfSingleRoute(currentRouteArray, graph);
+            double routeCost = routeEvaluator.CalculateCostOfSingleRoute(currentRouteArray, graph);
             AntRoute = new Route(currentRouteArray, routeCost);
         }
 
