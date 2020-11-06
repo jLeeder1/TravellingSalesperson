@@ -7,8 +7,9 @@ namespace TravellingSalespersonProj.LocalSearchTutorial
 {
     public class LocalSearch
     {
-        private RouteEvaluator routeEvaluator;
-        private TourFormatter tourFormatter;
+        private readonly RouteEvaluator routeEvaluator;
+        private readonly TourFormatter tourFormatter;
+
         public LocalSearch()
         {
             routeEvaluator = new RouteEvaluator();

@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace TravellingSalespersonProj.AntColonyOpt
+﻿namespace TravellingSalespersonProj.AntColonyOpt
 {
     public class ACOController
     {
         private readonly PheromoneLookup pheromoneLookup;
+        private readonly RouteEvaluator routeEvaluator;
 
         public ACOController()
         {
             pheromoneLookup = new PheromoneLookup();
+            routeEvaluator = new RouteEvaluator();
         }
     }
 }

@@ -9,9 +9,12 @@ namespace TravellingSalespersonProj
         // Stores the graph in the format: NodeID, [NodeXPos, NodeYPos]
         public Dictionary<int, float[]> GraphOfNodes { get; set; }
 
+        private readonly RouteEvaluator routeEvaluator;
+
         public Graph()
         {
             GraphOfNodes = new Dictionary<int, float[]>();
+            routeEvaluator = new RouteEvaluator();
         }
 
         public void AddNodeToGraph(int nodeID, float[] nodeCoordinates)
@@ -41,19 +44,6 @@ namespace TravellingSalespersonProj
             }
         }
 
-        /*
-         * Format: [originx, originy, destinationx, destinationy]
-         */
-        public float CalculateCostOfEdge(float[] coordinates)
-        {
-            float xBxA = MathF.Pow(coordinates[2] - coordinates[0], 2);
-            float yByA = MathF.Pow(coordinates[3] - coordinates[1], 2);
-            float sqrRoot = xBxA + yByA;
-
-            sqrRoot = MathF.Sqrt(sqrRoot);
-            return sqrRoot;
-        }
-
         public int GetClosestCity(int currentCity, List<int> visitedCities)
         {
             int closestCity = int.MaxValue;
@@ -72,7 +62,7 @@ namespace TravellingSalespersonProj
                 coordinatesToCompare.AddRange(currentCityCoordinates);
                 coordinatesToCompare.AddRange(node.Value);
 
-                float costOFCurrentEdge = CalculateCostOfEdge(coordinatesToCompare.ToArray());
+                float costOFCurrentEdge = routeEvaluator.CalculateCostOfEdge(coordinatesToCompare.ToArray());
 
                 if(costOFCurrentEdge < lowestCostEdge)
                 {

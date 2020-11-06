@@ -13,11 +13,24 @@ namespace TravellingSalespersonProj
                 if(index < route.Length - 2 && graph.GraphOfNodes.ContainsKey(index))
                 {
                     float[] coordinatesToCompare = GetCoordinatesToCompare(route[index], route[index + 1], graph);
-                    costOfRoute += graph.CalculateCostOfEdge(coordinatesToCompare);
+                    costOfRoute += CalculateCostOfEdge(coordinatesToCompare);
                 }
             }
 
             return costOfRoute;
+        }
+
+        /*
+         * Format: [originx, originy, destinationx, destinationy]
+         */
+        public float CalculateCostOfEdge(float[] coordinates)
+        {
+            float xBxA = MathF.Pow(coordinates[2] - coordinates[0], 2);
+            float yByA = MathF.Pow(coordinates[3] - coordinates[1], 2);
+            float sqrRoot = xBxA + yByA;
+
+            sqrRoot = MathF.Sqrt(sqrRoot);
+            return sqrRoot;
         }
 
         private float[] GetCoordinatesToCompare(int startingNode, int destinationNode, Graph graph)

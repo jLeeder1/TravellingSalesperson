@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace TravellingSalespersonProj.AntColonyOpt
 {
@@ -32,7 +28,7 @@ namespace TravellingSalespersonProj.AntColonyOpt
         {
             foreach(KeyValuePair<int[], double> entry in pheronomoneValues)
             {
-                UpdatePheromone(entry.Key, entry.Value * ACOConstants.RHO_PHEROMONE_DECAY;
+                UpdatePheromone(entry.Key, entry.Value * ACOConstants.RHO_PHEROMONE_DECAY);
             }
         }
 

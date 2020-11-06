@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using TravellingSalespersonProj.LocalSearchTutorial;
 
 namespace TravellingSalespersonProj.AntColonyOpt
 {
     public class Ant
     {
+        public Route AntRoute { get; set; }
+
         private readonly int startEndCity;
 
         public Ant(int startEndCity)
@@ -12,7 +15,7 @@ namespace TravellingSalespersonProj.AntColonyOpt
             this.startEndCity = startEndCity;
         }
 
-        public int[] ConstructGreedyRoute(Graph graph)
+        public void ConstructGreedyRoute(Graph graph, RouteEvaluator routeEvaluator)
         {
             List<int> visitedCities = new List<int>();
             List<int> currentRoute = new List<int>();
@@ -26,13 +29,24 @@ namespace TravellingSalespersonProj.AntColonyOpt
             }
 
             currentRoute.Add(startEndCity);
-            return currentRoute.ToArray();
+            int[] currentRouteArray = currentRoute.ToArray();
+
+            float routeCost = routeEvaluator.CalculateCostOfSingleRoute(currentRouteArray, graph);
+            AntRoute = new Route(currentRouteArray, routeCost);
         }
 
-        private int ChooseNextCityToVisit(PheromoneLookup pheromoneLookup)
+        private int ChooseNextCityToVisit(PheromoneLookup pheromoneLookup, RouteEvaluator routeEvaluator)
         {
-            // GOT TO THIS BIT, STEP 5 STILL TRYING TO GET MY HEAD ROUND IT
-            return null;
+            List<int> visitedCities = new List<int>();
+            List<int> currentRoute = new List<int>();
+
+            // Pheremones on edge i -> j
+
+            // Cost of edge i -> j
+
+
+
+            return 0;
         }
     }
 }
