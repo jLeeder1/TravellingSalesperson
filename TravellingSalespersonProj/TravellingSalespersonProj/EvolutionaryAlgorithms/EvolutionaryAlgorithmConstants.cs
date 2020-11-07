@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using System;
+using System.Data;
 
 namespace TravellingSalespersonProj.EvolutionaryAlgorithms
 {
@@ -19,5 +20,24 @@ namespace TravellingSalespersonProj.EvolutionaryAlgorithms
         public static bool IS_USING_TOURNAMENT { get; set; } = true;
 
         public static int STARTING_NODE { get; set; } = 0;
+
+        public static void ResetValuesToDefault()
+        {
+            NUMBER_OF_GENERATIONS = 100;
+            TOURNAMENT_SIZE = 10;
+            POPULATION_SIZE = 10;
+            RECOMBINATION_PROBABILITY = 0.75;
+            MUTATION_PROBABILITY = 0.25;
+        }
+
+        public static void DisplayConstants()
+        {
+            Console.WriteLine($"Number of generations: {EvolutionaryAlgorithmConstants.NUMBER_OF_GENERATIONS}");
+            Console.WriteLine($"Tournament size: {EvolutionaryAlgorithmConstants.TOURNAMENT_SIZE}");
+            Console.WriteLine($"Population size: {EvolutionaryAlgorithmConstants.POPULATION_SIZE}");
+            Console.WriteLine($"Mutation probability: {EvolutionaryAlgorithmConstants.MUTATION_PROBABILITY}");
+            Console.WriteLine($"Recombination probability: {EvolutionaryAlgorithmConstants.RECOMBINATION_PROBABILITY}");
+            Console.WriteLine(System.Environment.NewLine);
+        }
     }
 }

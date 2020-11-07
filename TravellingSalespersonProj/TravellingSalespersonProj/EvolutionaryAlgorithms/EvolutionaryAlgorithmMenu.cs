@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using TravellingSalespersonProj.LocalSearchTutorial;
 
 namespace TravellingSalespersonProj.EvolutionaryAlgorithms
@@ -23,6 +22,7 @@ namespace TravellingSalespersonProj.EvolutionaryAlgorithms
             switch (Console.ReadKey().Key)
             {
                 case ConsoleKey.D1:
+                    EvolutionaryAlgorithmConstants.ResetValuesToDefault();
                     break;
                 case ConsoleKey.D2:
                     customValueInput.GetCustomVariables();
@@ -33,6 +33,7 @@ namespace TravellingSalespersonProj.EvolutionaryAlgorithms
 
 
             RunEvolutionaryAlgorithm(graph);
+            EvolutionaryAlgorithmConstants.DisplayConstants();
         }
 
         private void DisplayMenuOptions()

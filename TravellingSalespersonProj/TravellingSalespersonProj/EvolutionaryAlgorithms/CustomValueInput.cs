@@ -23,13 +23,6 @@ namespace TravellingSalespersonProj.EvolutionaryAlgorithms
 
             Console.WriteLine($"4: Recombination probability (double between 0 and 1)");
             EvolutionaryAlgorithmConstants.RECOMBINATION_PROBABILITY = GetDoubleValue();
-
-            Console.WriteLine($"You have chosen:{System.Environment.NewLine}");
-            Console.WriteLine($"Number of generations: {EvolutionaryAlgorithmConstants.NUMBER_OF_GENERATIONS}");
-            Console.WriteLine($"Tournament size: {EvolutionaryAlgorithmConstants.TOURNAMENT_SIZE}");
-            Console.WriteLine($"Population size: {EvolutionaryAlgorithmConstants.POPULATION_SIZE}");
-            Console.WriteLine($"Mutation probability: {EvolutionaryAlgorithmConstants.MUTATION_PROBABILITY}");
-            Console.WriteLine($"Recombination probability: {EvolutionaryAlgorithmConstants.RECOMBINATION_PROBABILITY}");
         }
 
         private int GetIntValue()
