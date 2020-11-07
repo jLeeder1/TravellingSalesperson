@@ -9,7 +9,7 @@ namespace TravellingSalespersonProj
     {
         public static void PrintGraphOfNodes(Graph graph)
         {
-            foreach (KeyValuePair<int, float[]> entry in graph.GraphOfNodes)
+            foreach (KeyValuePair<int, double[]> entry in graph.GraphOfNodes)
             {
                 Console.WriteLine($"{System.Environment.NewLine}Node ID: {entry.Key}, Node Coordinates: {entry.Value[0]}, {entry.Value[1]}");
             }

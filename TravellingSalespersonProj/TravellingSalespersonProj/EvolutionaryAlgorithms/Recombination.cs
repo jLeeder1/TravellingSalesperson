@@ -8,8 +8,8 @@ namespace TravellingSalespersonProj.EvolutionaryAlgorithms
 {
     public class Recombination
     {
-        private Random random;
-        private TourFormatter tourFormatter;
+        private readonly Random random;
+        private readonly TourFormatter tourFormatter;
 
         public Recombination()
         {

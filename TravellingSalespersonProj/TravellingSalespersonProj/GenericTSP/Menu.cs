@@ -94,7 +94,7 @@ namespace TravellingSalespersonProj
         private void RunTimeBasedRandomSearch(int timeToExecuteFor)
         {
             ReadGraphFromFile();
-            KeyValuePair<int[], float> routeAndTimeTaken = timeBasedEvaluator.CalculateBestRandomRouteInGivenTime(graph, timeToExecuteFor);
+            KeyValuePair<int[], double> routeAndTimeTaken = timeBasedEvaluator.CalculateBestRandomRouteInGivenTime(graph, timeToExecuteFor);
             DataDisplay.PrintRouteAndCalculation(routeAndTimeTaken.Key, routeAndTimeTaken.Value);
         }
 
@@ -120,7 +120,7 @@ namespace TravellingSalespersonProj
         private void EvaluateRouteAndPrint()
         {
             int[] route = randomRouteGenerator.GenerateSingleRandomRoute(graph.GraphOfNodes.Count, 0);
-            float costOfRoute = routeEvaluator.CalculateCostOfSingleRoute(route, graph);
+            double costOfRoute = routeEvaluator.CalculateCostOfSingleRoute(route, graph);
             DataDisplay.PrintRouteAndCalculation(route, costOfRoute);
         }
     }

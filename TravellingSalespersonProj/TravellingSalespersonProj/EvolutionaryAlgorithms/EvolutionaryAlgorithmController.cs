@@ -76,7 +76,7 @@ namespace TravellingSalespersonProj.EvolutionaryAlgorithms
             for(int index = 0; index < sizeOfPopulation; index++)
             {
                 int[] routeIds = randomRouteGenerator.GenerateSingleRandomRoute(graph.GraphOfNodes.Count, startingNode);
-                float routeCost = routeEvaluator.CalculateCostOfSingleRoute(routeIds, graph);
+                double routeCost = routeEvaluator.CalculateCostOfSingleRoute(routeIds, graph);
 
                 Route currentRoute = new Route(routeIds, routeCost);
 
@@ -97,7 +97,13 @@ namespace TravellingSalespersonProj.EvolutionaryAlgorithms
         {
             // Adds a random initial best route for the generation
             int[] tempRoute = randomRouteGenerator.GenerateSingleRandomRoute(graph.GraphOfNodes.Count, startingNode);
-            float tempRouteCost = routeEvaluator.CalculateCostOfSingleRoute(tempRoute, graph);
+            double tempRouteCost = routeEvaluator.CalculateCostOfSingleRoute(tempRoute, graph);
+
+            if(BestRouteInGeneration.ContainsKey(0))
+            {
+                BestRouteInGeneration.Remove(0);
+            }
+
             BestRouteInGeneration.Add(0, new Route(tempRoute, tempRouteCost));
         }
 

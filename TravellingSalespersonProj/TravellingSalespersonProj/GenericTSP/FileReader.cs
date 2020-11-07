@@ -18,7 +18,7 @@ namespace TravellingSalespersonProj
 
                         if(IsRowWithCorrectStartingData(values))
                         {
-                            float[] coordinates = { float.Parse(values[1]), float.Parse(values[2]) };
+                            double[] coordinates = { double.Parse(values[1]), double.Parse(values[2]) };
                             graph.AddNodeToGraph(int.Parse(values[0]), coordinates);
                         }
                     }
