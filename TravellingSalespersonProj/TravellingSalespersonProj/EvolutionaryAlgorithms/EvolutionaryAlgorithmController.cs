@@ -37,17 +37,17 @@ namespace TravellingSalespersonProj.EvolutionaryAlgorithms
             
         }
 
-        public Dictionary<int, Route> RunEvolutionaryAlgorithm(int sizeOfPopulation, int startingNode, int numOfGenerations, Graph graph)
+        public Dictionary<int, Route> RunEvolutionaryAlgorithm(int startingNode, Graph graph)
         {
             AddInitialBestRouteForGenerationZero(startingNode, graph);
-            this.parentPopulation = InitialisePoplulation(sizeOfPopulation, startingNode, graph);
+            this.parentPopulation = InitialisePoplulation(startingNode, graph);
 
-            for(int generationNumber = 0; generationNumber < numOfGenerations; generationNumber++)
+            for(int generationNumber = 0; generationNumber < EvolutionaryAlgorithmConstants.NUMBER_OF_GENERATIONS; generationNumber++)
             {
                 // Generate a list of individuals offspring will be generated from
                 List<Route> potentialParents = new List<Route>();
 
-                potentialParents.AddRange(parentSelection.DefaultTournamentSelection(parentPopulation, 10));
+                potentialParents.AddRange(parentSelection.DefaultTournamentSelection(parentPopulation));
 
                 // Generate an offspring population
                 while (offspringPopulation.Count < parentPopulation.Count)
@@ -74,11 +74,11 @@ namespace TravellingSalespersonProj.EvolutionaryAlgorithms
             return BestRouteInGeneration;
         }
 
-        private List<Route> InitialisePoplulation(int sizeOfPopulation, int startingNode, Graph graph)
+        private List<Route> InitialisePoplulation(int startingNode, Graph graph)
         {
             List<Route> tempPopulation = new List<Route>();
 
-            for(int index = 0; index < sizeOfPopulation; index++)
+            for(int index = 0; index < EvolutionaryAlgorithmConstants.POPULATION_SIZE; index++)
             {
                 int[] routeIds = randomRouteGenerator.GenerateSingleRandomRoute(graph.GraphOfNodes.Count, startingNode);
                 double routeCost = routeEvaluator.CalculateCostOfSingleRoute(routeIds, graph);
