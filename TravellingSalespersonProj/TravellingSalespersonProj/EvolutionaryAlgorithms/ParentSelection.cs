@@ -36,7 +36,7 @@ namespace TravellingSalespersonProj.EvolutionaryAlgorithms
             return selectedParents;
         }
 
-        public List<Route> DefaultTournamentSelection(List<Route> currentPopulation, int tournamentSize)
+        public List<Route> DefaultTournamentSelection(List<Route> currentPopulation)
         {
             List<Route> parentPopulation = new List<Route>();
             List<Route> parentSample = new List<Route>();
@@ -44,7 +44,7 @@ namespace TravellingSalespersonProj.EvolutionaryAlgorithms
             while(parentPopulation.Count <= currentPopulation.Count - 1)
             {
                 // Generates sample for this tournament
-                for(int index = 0; index <= tournamentSize; index++)
+                for(int index = 0; index <= EvolutionaryAlgorithmConstants.TOURNAMENT_SIZE; index++)
                 {
                     parentSample.Add(currentPopulation.ElementAt(random.Next(0, currentPopulation.Count - 1)));
                 }

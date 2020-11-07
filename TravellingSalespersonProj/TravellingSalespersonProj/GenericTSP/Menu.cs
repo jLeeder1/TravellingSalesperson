@@ -13,6 +13,7 @@ namespace TravellingSalespersonProj
         private readonly FileReader fileReader;
         private readonly TimeBasedEvaluator timeBasedEvaluator;
         private readonly EvolutionaryAlgorithmController evolutionaryAlgorithmController;
+        private readonly EvolutionaryAlgorithmMenu evolutionaryAlgorithmMenu;
 
         public Menu()
         {
@@ -22,6 +23,7 @@ namespace TravellingSalespersonProj
             this.fileReader = new FileReader();
             this.timeBasedEvaluator = new TimeBasedEvaluator();
             this.evolutionaryAlgorithmController = new EvolutionaryAlgorithmController();
+            this.evolutionaryAlgorithmMenu = new EvolutionaryAlgorithmMenu();
         }
 
         public void RunMenu()
@@ -56,7 +58,7 @@ namespace TravellingSalespersonProj
                         break;
                     case ConsoleKey.D6:
                         ReadGraphFromFile();
-                        RunEvolutionaryAlgorithm();
+                        evolutionaryAlgorithmMenu.RunMenu(graph);
                         break;
                     default:
                         isProgramStillOpen = false;
@@ -103,13 +105,6 @@ namespace TravellingSalespersonProj
             LocalSearch localSearch = new LocalSearch();
             Route bestRoute = localSearch.RunLocalSearch(graph, randomRouteGenerator.GenerateSingleRandomRoute(graph.GraphOfNodes.Count, 0));
             DataDisplay.PrintRouteAndCalculation(bestRoute.RouteIds, bestRoute.RouteCost);
-        }
-
-        private void RunEvolutionaryAlgorithm()
-        {
-            Dictionary<int, Route> bestRoutes = evolutionaryAlgorithmController.RunEvolutionaryAlgorithm(100, 0, 100, graph);
-            DataDisplay.PrintDictionaryOfBestRoutes(bestRoutes);
-            DataDisplay.PrintBestRouteOverall(bestRoutes);
         }
 
         private void ReadGraphFromFile()
