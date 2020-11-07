@@ -11,6 +11,7 @@ namespace TravellingSalespersonProj.EvolutionaryAlgorithms
         private readonly RouteEvaluator routeEvaluator;
         private readonly ParentSelection parentSelection;
         private readonly Recombination recombination;
+        private readonly Mutation mutation;
         private readonly Random random;
 
 
@@ -27,6 +28,7 @@ namespace TravellingSalespersonProj.EvolutionaryAlgorithms
             parentSelection = new ParentSelection();
             parentSelection = new ParentSelection();
             recombination = new Recombination();
+            mutation = new Mutation();
             random = new Random();
 
             parentPopulation = new List<Route>();
@@ -42,9 +44,6 @@ namespace TravellingSalespersonProj.EvolutionaryAlgorithms
 
             for(int generationNumber = 0; generationNumber < numOfGenerations; generationNumber++)
             {
-                //parentSelection.ParentRouletteSelection(populationOne);
-                //List<Route> parents = parentSelection.ParentTournamentSelection(populationOne, 10);
-
                 // Generate a list of individuals offspring will be generated from
                 List<Route> potentialParents = new List<Route>();
 
@@ -58,6 +57,12 @@ namespace TravellingSalespersonProj.EvolutionaryAlgorithms
                     Route parentTwo = potentialParents.ElementAt(random.Next(0, potentialParents.Count - 1));
 
                     offspringPopulation.AddRange(recombination.RunRecombination(parentOne, parentTwo));
+                }
+
+                
+                foreach(Route offspring in offspringPopulation)
+                {
+                    mutation.SwapMutateIndividual(offspring);
                 }
 
                 CalculateRouteCostsForIndividualsInGeneration(offspringPopulation, graph);
