@@ -19,7 +19,7 @@ namespace TravellingSalespersonProj.EvolutionaryAlgorithms
 
         public static bool IS_USING_TOURNAMENT { get; set; } = true;
 
-        public static int STARTING_NODE { get; set; } = 0;
+        public static int STARTING_NODE { get; set; } = 1;
 
         public static void ResetValuesToDefault()
         {
