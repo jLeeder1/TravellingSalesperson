@@ -19,6 +19,8 @@ namespace TravellingSalespersonProj.EvolutionaryAlgorithms
 
         public static bool IS_USING_TOURNAMENT { get; set; } = true;
 
+        public static bool IS_USING_RANDOM_START_END_CITY { get; set; } = true;
+
         public static int STARTING_NODE { get; set; } = 1;
 
         public static void ResetValuesToDefault()
@@ -28,6 +30,7 @@ namespace TravellingSalespersonProj.EvolutionaryAlgorithms
             POPULATION_SIZE = 10;
             RECOMBINATION_PROBABILITY = 0.75;
             MUTATION_PROBABILITY = 0.25;
+            IS_USING_RANDOM_START_END_CITY = true;
         }
 
         public static void DisplayConstants()
@@ -37,6 +40,7 @@ namespace TravellingSalespersonProj.EvolutionaryAlgorithms
             Console.WriteLine($"Population size: {EvolutionaryAlgorithmConstants.POPULATION_SIZE}");
             Console.WriteLine($"Mutation probability: {EvolutionaryAlgorithmConstants.MUTATION_PROBABILITY}");
             Console.WriteLine($"Recombination probability: {EvolutionaryAlgorithmConstants.RECOMBINATION_PROBABILITY}");
+            Console.WriteLine($"Is using random start end city: {EvolutionaryAlgorithmConstants.IS_USING_RANDOM_START_END_CITY}");
             Console.WriteLine(System.Environment.NewLine);
         }
     }

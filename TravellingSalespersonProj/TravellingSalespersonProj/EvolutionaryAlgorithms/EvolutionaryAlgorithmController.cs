@@ -11,6 +11,7 @@ namespace TravellingSalespersonProj.EvolutionaryAlgorithms
         private readonly RouteEvaluator routeEvaluator;
         private readonly ParentSelection parentSelection;
         private readonly Recombination recombination;
+        private readonly RecombinationVariableStartEnd recombinationVariableStartEnd;
         private readonly Mutation mutation;
         private readonly Random random;
 
@@ -28,6 +29,7 @@ namespace TravellingSalespersonProj.EvolutionaryAlgorithms
             parentSelection = new ParentSelection();
             parentSelection = new ParentSelection();
             recombination = new Recombination();
+            recombinationVariableStartEnd = new RecombinationVariableStartEnd();
             mutation = new Mutation();
             random = new Random();
 
@@ -40,7 +42,7 @@ namespace TravellingSalespersonProj.EvolutionaryAlgorithms
         public Dictionary<int, Route> RunEvolutionaryAlgorithm(int startingNode, Graph graph)
         {
             AddInitialBestRouteForGenerationZero(graph);
-            this.parentPopulation = InitialisePoplulation(startingNode, graph);
+            this.parentPopulation = InitialisePoplulation(graph);
 
             for(int generationNumber = 0; generationNumber < EvolutionaryAlgorithmConstants.NUMBER_OF_GENERATIONS; generationNumber++)
             {
@@ -56,7 +58,7 @@ namespace TravellingSalespersonProj.EvolutionaryAlgorithms
                     Route parentOne = potentialParents.ElementAt(random.Next(0, potentialParents.Count - 1));
                     Route parentTwo = potentialParents.ElementAt(random.Next(0, potentialParents.Count - 1));
 
-                    offspringPopulation.AddRange(recombination.RunRecombination(parentOne, parentTwo));
+                    offspringPopulation.Add(recombinationVariableStartEnd.RunRecombination(parentOne, parentTwo));
                 }
 
                 
@@ -74,18 +76,13 @@ namespace TravellingSalespersonProj.EvolutionaryAlgorithms
             return BestRouteInGeneration;
         }
 
-        private List<Route> InitialisePoplulation(int startingNode, Graph graph)
+        private List<Route> InitialisePoplulation(Graph graph)
         {
             List<Route> tempPopulation = new List<Route>();
 
             for(int index = 0; index < EvolutionaryAlgorithmConstants.POPULATION_SIZE; index++)
             {
-                if(startingNode == int.MaxValue)
-                {
-                    startingNode = random.Next(1, graph.GraphOfNodes.Count);
-                }
-
-                int[] routeIds = randomRouteGenerator.GenerateSingleRandomRoute(graph.GraphOfNodes.Count, startingNode);
+                int[] routeIds = randomRouteGenerator.GenerateSingleRandomRoute(graph.GraphOfNodes.Count);
                 double routeCost = routeEvaluator.CalculateCostOfSingleRoute(routeIds, graph);
 
                 Route currentRoute = new Route(routeIds, routeCost);
