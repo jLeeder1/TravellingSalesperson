@@ -31,7 +31,8 @@ namespace TravellingSalespersonProj
         {
             foreach(KeyValuePair<int, Route> entry in bestRoutes)
             {
-                Console.WriteLine($"{System.Environment.NewLine}Generation number ID: {entry.Key}, Best Route: {entry.Value.RouteIds}, Best Cost: {entry.Value.RouteCost}");
+                string bestRouteStr = RouteToString(entry.Value.RouteIds.ToList());
+                Console.WriteLine($"{System.Environment.NewLine}Generation number ID: {entry.Key}, Best Route: {bestRouteStr}, Best Cost: {entry.Value.RouteCost}");
             }
         }
 
@@ -54,8 +55,18 @@ namespace TravellingSalespersonProj
                     generationNumer = entry.Key;
                 }
             }
+            string bestRouteStr = RouteToString(bestRoute);
 
-            Console.WriteLine($"{System.Environment.NewLine}Generation number ID: {generationNumer}, Best Route: {bestRoute}, Best Cost: {bestCost}");
+            Console.WriteLine($"{System.Environment.NewLine}Generation number ID: {generationNumer}, Best Route: {bestRouteStr}, Best Cost: {bestCost}");
+        }
+
+        private static string RouteToString(List<int> route)
+        {
+            string stringRoute = string.Empty;
+
+            route.ToList().ForEach(i => stringRoute = $"{stringRoute} {i}");
+
+            return stringRoute;
         }
     }
 }
