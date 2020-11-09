@@ -5,13 +5,13 @@ namespace TravellingSalespersonProj
 {
     public class RandomRouteGenerator
     {
-        public int[] GenerateSingleRandomRoute(int numberOfNodes, int startingNode)
+        public int[] GenerateSingleRandomRoute(int numberOfNodes, int startingNode = 1)
         {
             // Will this actually be random if always newed up here?
             Random rnd = new Random();
 
             int[] nodesToVisit = new int[numberOfNodes - 1];
-            int count = 0;
+            int count = 1;
 
             // Makes an array with the nodes to visit that are not the start nodes
             for (int index = 0; index < numberOfNodes - 1; index++)

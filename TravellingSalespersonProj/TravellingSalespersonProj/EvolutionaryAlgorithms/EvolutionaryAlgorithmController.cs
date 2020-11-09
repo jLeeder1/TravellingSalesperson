@@ -37,10 +37,10 @@ namespace TravellingSalespersonProj.EvolutionaryAlgorithms
             
         }
 
-        public Dictionary<int, Route> RunEvolutionaryAlgorithm(int sizeOfPopulation, int startingNode, int numOfGenerations, Graph graph)
+        public Dictionary<int, Route> RunEvolutionaryAlgorithm(int sizeOfPopulation, int numOfGenerations, Graph graph)
         {
-            AddInitialBestRouteForGenerationZero(startingNode, graph);
-            this.parentPopulation = InitialisePoplulation(sizeOfPopulation, startingNode, graph);
+            AddInitialBestRouteForGenerationZero(graph);
+            this.parentPopulation = InitialisePoplulation(sizeOfPopulation, graph);
 
             for(int generationNumber = 0; generationNumber < numOfGenerations; generationNumber++)
             {
@@ -74,18 +74,23 @@ namespace TravellingSalespersonProj.EvolutionaryAlgorithms
             return BestRouteInGeneration;
         }
 
-        private List<Route> InitialisePoplulation(int sizeOfPopulation, int startingNode, Graph graph)
+        private List<Route> InitialisePoplulation(int sizeOfPopulation, Graph graph, int startingNode = int.MaxValue)
         {
             List<Route> tempPopulation = new List<Route>();
 
             for(int index = 0; index < sizeOfPopulation; index++)
             {
+                if(startingNode == int.MaxValue)
+                {
+                    startingNode = random.Next(1, graph.GraphOfNodes.Count);
+                }
+
                 int[] routeIds = randomRouteGenerator.GenerateSingleRandomRoute(graph.GraphOfNodes.Count, startingNode);
                 double routeCost = routeEvaluator.CalculateCostOfSingleRoute(routeIds, graph);
 
                 Route currentRoute = new Route(routeIds, routeCost);
-
                 Route currentBestRoute = BestRouteInGeneration.ElementAt(0).Value;
+
                 if (currentRoute.RouteCost < currentBestRoute.RouteCost)
                 {
                     BestRouteInGeneration.Remove(0);
@@ -98,10 +103,10 @@ namespace TravellingSalespersonProj.EvolutionaryAlgorithms
             return tempPopulation;
         }
 
-        private void AddInitialBestRouteForGenerationZero(int startingNode, Graph graph)
+        private void AddInitialBestRouteForGenerationZero(Graph graph)
         {
             // Adds a random initial best route for the generation
-            int[] tempRoute = randomRouteGenerator.GenerateSingleRandomRoute(graph.GraphOfNodes.Count, startingNode);
+            int[] tempRoute = randomRouteGenerator.GenerateSingleRandomRoute(graph.GraphOfNodes.Count);
             double tempRouteCost = routeEvaluator.CalculateCostOfSingleRoute(tempRoute, graph);
 
             if(BestRouteInGeneration.ContainsKey(0))
