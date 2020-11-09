@@ -19,17 +19,24 @@ namespace TravellingSalespersonProj.EvolutionaryAlgorithms
 
         public List<Route> RunRecombination(Route parentOne, Route parentTwo)
         {
+            int offspringStartEndCity = ChooseRandomStartEndCityFromParents(new int[] { parentOne.RouteIds.First(), parentTwo.RouteIds.First() });
+            int[] parentOneRoute = parentOne.RouteIds;
+            int[] parentTwoRoute = parentOne.RouteIds;
+
+            if(parentOneRoute.First() == offspringStartEndCity)
+            {
+                parentOneRoute = tourFormatter.RemoveStartAndEndNodeToRoute(parentOneRoute);
+            }
+            else
+            {
+                parentTwoRoute = tourFormatter.RemoveStartAndEndNodeToRoute(parentTwoRoute);
+            }
+
+
             List<Route> offspring = new List<Route>
             {
-                OrderOneCrossover(
-                tourFormatter.RemoveStartAndEndNodeToRoute(parentOne.RouteIds),
-                tourFormatter.RemoveStartAndEndNodeToRoute(parentTwo.RouteIds),
-                parentOne.RouteIds.First()),
-
-                OrderOneCrossover(
-                tourFormatter.RemoveStartAndEndNodeToRoute(parentTwo.RouteIds),
-                tourFormatter.RemoveStartAndEndNodeToRoute(parentOne.RouteIds),
-                parentOne.RouteIds.First())
+                OrderOneCrossover(parentOneRoute, parentTwoRoute, offspringStartEndCity),
+                OrderOneCrossover(parentTwoRoute, parentOneRoute, offspringStartEndCity)
             };
 
             return offspring;
@@ -81,20 +88,53 @@ namespace TravellingSalespersonProj.EvolutionaryAlgorithms
             int startingIndex = random.Next(0, parentOneRoute.Length - 1);
             int endingIndex = random.Next(startingIndex, parentOneRoute.Length - 1);
 
-            // Copy the elements between random range into child one
-            Array.Copy(parentOneRoute, startingIndex, offspringOneRoute, startingIndex, endingIndex - startingIndex);
+            offspringOneRoute = AddFirstPartParentOneToOffspring(offspringOneRoute, parentOneRoute, startEndCity, startingIndex, endingIndex);
 
-            // Two iterators to track what element to pull from the parent and where to insert that element in the child
+            offspringOneRoute = AddSecondPartSecondParentToOffspring(offspringOneRoute, parentTwoRoute, startEndCity, startingIndex, endingIndex);
+
+            offspringOneRoute = tourFormatter.AddStartAndEndNodeToRoute(startEndCity, offspringOneRoute);
+
+            return new Route(offspringOneRoute, double.MaxValue);
+        }
+
+        private int[] AddFirstPartParentOneToOffspring(int[] offspringOneRoute, int[] parentOneRoute, int startEndCity, int startingIndex, int endingIndex)
+        {
+            int iteratorIndex = startingIndex;
+            int currentPositionInChildRoute = startingIndex;
+            int numElementsToCopy = endingIndex - startingIndex;
+            
+            while(numElementsToCopy > 0)
+            {
+                if (parentOneRoute[iteratorIndex] != startEndCity)
+                {
+                    offspringOneRoute[currentPositionInChildRoute] = parentOneRoute[iteratorIndex];
+                    numElementsToCopy--;
+                    currentPositionInChildRoute++;
+                }
+
+                iteratorIndex++;
+            }
+
+            return offspringOneRoute;
+        }
+
+        private int[] AddSecondPartSecondParentToOffspring(int[] offspringOneRoute, int[] parentTwoRoute, int startEndCity, int startingIndex, int endingIndex)
+        {
             int iteratorIndex = endingIndex;
             int currentPositionInChildRoute = endingIndex;
-            int numElementsToCopy = parentOneRoute.Length - (endingIndex - startingIndex);
+            int numElementsToCopy = parentTwoRoute.Length - (endingIndex - startingIndex);
 
             while (numElementsToCopy > 0)
             {
-                if(iteratorIndex > parentOneRoute.Length - 1)
+                if (iteratorIndex > parentTwoRoute.Length - 1)
                 {
                     iteratorIndex = 0;
                     continue;
+                }
+
+                if(parentTwoRoute[iteratorIndex] == startEndCity)
+                {
+                    iteratorIndex++;
                 }
 
                 if (!offspringOneRoute.Contains(parentTwoRoute[iteratorIndex]))
@@ -104,7 +144,7 @@ namespace TravellingSalespersonProj.EvolutionaryAlgorithms
                     currentPositionInChildRoute++;
                 }
 
-                if(currentPositionInChildRoute > offspringOneRoute.Length - 1)
+                if (currentPositionInChildRoute > offspringOneRoute.Length - 1)
                 {
                     currentPositionInChildRoute = 0;
                 }
@@ -112,9 +152,13 @@ namespace TravellingSalespersonProj.EvolutionaryAlgorithms
                 iteratorIndex++;
             }
 
-            offspringOneRoute = tourFormatter.AddStartAndEndNodeToRoute(startEndCity, offspringOneRoute);
+            return offspringOneRoute;
+        }
 
-            return new Route(offspringOneRoute, double.MaxValue);
+        private int ChooseRandomStartEndCityFromParents(int[] startEndCities)
+        {
+            int randomCity = random.Next(0, startEndCities.Length);
+            return startEndCities[randomCity];
         }
     }
 }

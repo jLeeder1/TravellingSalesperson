@@ -77,15 +77,16 @@ namespace TravellingSalespersonProj.EvolutionaryAlgorithms
         private List<Route> InitialisePoplulation(int sizeOfPopulation, Graph graph, int startingNode = int.MaxValue)
         {
             List<Route> tempPopulation = new List<Route>();
+            int startEndCity = 0;
 
             for(int index = 0; index < sizeOfPopulation; index++)
             {
                 if(startingNode == int.MaxValue)
                 {
-                    startingNode = random.Next(1, graph.GraphOfNodes.Count);
+                    startEndCity = random.Next(1, graph.GraphOfNodes.Count);
                 }
 
-                int[] routeIds = randomRouteGenerator.GenerateSingleRandomRoute(graph.GraphOfNodes.Count, startingNode);
+                int[] routeIds = randomRouteGenerator.GenerateSingleRandomRoute(graph.GraphOfNodes.Count, startEndCity);
                 double routeCost = routeEvaluator.CalculateCostOfSingleRoute(routeIds, graph);
 
                 Route currentRoute = new Route(routeIds, routeCost);
