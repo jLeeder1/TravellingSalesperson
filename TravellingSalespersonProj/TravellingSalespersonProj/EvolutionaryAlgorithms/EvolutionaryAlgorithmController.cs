@@ -37,17 +37,17 @@ namespace TravellingSalespersonProj.EvolutionaryAlgorithms
             
         }
 
-        public Dictionary<int, Route> RunEvolutionaryAlgorithm(int sizeOfPopulation, int numOfGenerations, Graph graph)
+        public Dictionary<int, Route> RunEvolutionaryAlgorithm(int startingNode, Graph graph)
         {
             AddInitialBestRouteForGenerationZero(graph);
-            this.parentPopulation = InitialisePoplulation(sizeOfPopulation, graph);
+            this.parentPopulation = InitialisePoplulation(startingNode, graph);
 
-            for(int generationNumber = 0; generationNumber < numOfGenerations; generationNumber++)
+            for(int generationNumber = 0; generationNumber < EvolutionaryAlgorithmConstants.NUMBER_OF_GENERATIONS; generationNumber++)
             {
                 // Generate a list of individuals offspring will be generated from
                 List<Route> potentialParents = new List<Route>();
 
-                potentialParents.AddRange(parentSelection.DefaultTournamentSelection(parentPopulation, 10));
+                potentialParents.AddRange(parentSelection.DefaultTournamentSelection(parentPopulation));
 
                 // Generate an offspring population
                 while (offspringPopulation.Count < parentPopulation.Count)
@@ -74,12 +74,12 @@ namespace TravellingSalespersonProj.EvolutionaryAlgorithms
             return BestRouteInGeneration;
         }
 
-        private List<Route> InitialisePoplulation(int sizeOfPopulation, Graph graph, int startingNode = int.MaxValue)
+        private List<Route> InitialisePoplulation(int startingNode, Graph graph)
         {
             List<Route> tempPopulation = new List<Route>();
             int startEndCity = 0;
 
-            for(int index = 0; index < sizeOfPopulation; index++)
+            for(int index = 0; index < EvolutionaryAlgorithmConstants.POPULATION_SIZE; index++)
             {
                 if(startingNode == int.MaxValue)
                 {

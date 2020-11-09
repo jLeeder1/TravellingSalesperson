@@ -19,11 +19,11 @@ namespace TravellingSalespersonProj.EvolutionaryAlgorithms
 
         public List<Route> RunRecombination(Route parentOne, Route parentTwo)
         {
-            int offspringStartEndCity = ChooseRandomStartEndCityFromParents(new int[] { parentOne.RouteIds.First(), parentTwo.RouteIds.First() });
-            int[] parentOneRoute = parentOne.RouteIds;
-            int[] parentTwoRoute = parentOne.RouteIds;
+            if (random.Next(1) < EvolutionaryAlgorithmConstants.RECOMBINATION_PROBABILITY)
+            {
+                return new List<Route>() { parentOne, parentTwo };
+            }
 
-            if(parentOneRoute.First() == offspringStartEndCity)
             {
                 parentOneRoute = tourFormatter.RemoveStartAndEndNodeToRoute(parentOneRoute);
             }
