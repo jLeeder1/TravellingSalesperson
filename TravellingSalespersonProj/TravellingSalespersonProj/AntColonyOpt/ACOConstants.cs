@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace TravellingSalespersonProj.AntColonyOpt
+﻿namespace TravellingSalespersonProj.AntColonyOpt
 {
     public static class ACOConstants
     {
