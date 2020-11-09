@@ -103,7 +103,7 @@ namespace TravellingSalespersonProj
         private void RunLocalSearch()
         {
             LocalSearch localSearch = new LocalSearch();
-            Route bestRoute = localSearch.RunLocalSearch(graph, randomRouteGenerator.GenerateSingleRandomRoute(graph.GraphOfNodes.Count, 0));
+            Route bestRoute = localSearch.RunLocalSearch(graph, randomRouteGenerator.GenerateSingleRandomRoute(graph.GraphOfNodes.Count));
             DataDisplay.PrintRouteAndCalculation(bestRoute.RouteIds, bestRoute.RouteCost);
         }
 
@@ -114,7 +114,7 @@ namespace TravellingSalespersonProj
 
         private void EvaluateRouteAndPrint()
         {
-            int[] route = randomRouteGenerator.GenerateSingleRandomRoute(graph.GraphOfNodes.Count, 0);
+            int[] route = randomRouteGenerator.GenerateSingleRandomRoute(graph.GraphOfNodes.Count);
             double costOfRoute = routeEvaluator.CalculateCostOfSingleRoute(route, graph);
             DataDisplay.PrintRouteAndCalculation(route, costOfRoute);
         }

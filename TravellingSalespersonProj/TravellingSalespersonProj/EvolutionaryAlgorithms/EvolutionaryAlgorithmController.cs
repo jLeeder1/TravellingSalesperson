@@ -39,7 +39,7 @@ namespace TravellingSalespersonProj.EvolutionaryAlgorithms
 
         public Dictionary<int, Route> RunEvolutionaryAlgorithm(int startingNode, Graph graph)
         {
-            AddInitialBestRouteForGenerationZero(startingNode, graph);
+            AddInitialBestRouteForGenerationZero(graph);
             this.parentPopulation = InitialisePoplulation(startingNode, graph);
 
             for(int generationNumber = 0; generationNumber < EvolutionaryAlgorithmConstants.NUMBER_OF_GENERATIONS; generationNumber++)
@@ -80,12 +80,17 @@ namespace TravellingSalespersonProj.EvolutionaryAlgorithms
 
             for(int index = 0; index < EvolutionaryAlgorithmConstants.POPULATION_SIZE; index++)
             {
+                if(startingNode == int.MaxValue)
+                {
+                    startingNode = random.Next(1, graph.GraphOfNodes.Count);
+                }
+
                 int[] routeIds = randomRouteGenerator.GenerateSingleRandomRoute(graph.GraphOfNodes.Count, startingNode);
                 double routeCost = routeEvaluator.CalculateCostOfSingleRoute(routeIds, graph);
 
                 Route currentRoute = new Route(routeIds, routeCost);
-
                 Route currentBestRoute = BestRouteInGeneration.ElementAt(0).Value;
+
                 if (currentRoute.RouteCost < currentBestRoute.RouteCost)
                 {
                     BestRouteInGeneration.Remove(0);
@@ -98,10 +103,10 @@ namespace TravellingSalespersonProj.EvolutionaryAlgorithms
             return tempPopulation;
         }
 
-        private void AddInitialBestRouteForGenerationZero(int startingNode, Graph graph)
+        private void AddInitialBestRouteForGenerationZero(Graph graph)
         {
             // Adds a random initial best route for the generation
-            int[] tempRoute = randomRouteGenerator.GenerateSingleRandomRoute(graph.GraphOfNodes.Count, startingNode);
+            int[] tempRoute = randomRouteGenerator.GenerateSingleRandomRoute(graph.GraphOfNodes.Count);
             double tempRouteCost = routeEvaluator.CalculateCostOfSingleRoute(tempRoute, graph);
 
             if(BestRouteInGeneration.ContainsKey(0))

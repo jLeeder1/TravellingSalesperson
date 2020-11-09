@@ -10,13 +10,12 @@ namespace TravellingSalespersonProj
 
             for(int index = 0; index <= route.Length -1; index++)
             {
-                if(index < route.Length - 2 && graph.GraphOfNodes.ContainsKey(index))
+                if(index < route.Length - 1 && graph.GraphOfNodes.ContainsKey(route[index]))
                 {
                     double[] coordinatesToCompare = GetCoordinatesToCompare(route[index], route[index + 1], graph);
                     costOfRoute += CalculateCostOfEdge(coordinatesToCompare);
                 }
             }
-
             return costOfRoute;
         }
 

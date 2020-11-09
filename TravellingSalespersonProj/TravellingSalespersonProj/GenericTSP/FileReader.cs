@@ -29,7 +29,6 @@ namespace TravellingSalespersonProj
                 Console.WriteLine("The file could not be read:");
                 Console.WriteLine(e.Message);
             }
-
         }
 
         private bool IsRowWithCorrectStartingData(string[] row)

@@ -26,7 +26,7 @@ namespace TravellingSalespersonProj.LocalSearchTutorial
             while (DateTime.Now < now.AddMilliseconds(timeToExecuteForInMilliSec))
             {
                 // This is duplicated in menu. Must be a better layout than copy paste
-                int[] route = randomRouteGenerator.GenerateSingleRandomRoute(graph.GraphOfNodes.Count, 0);
+                int[] route = randomRouteGenerator.GenerateSingleRandomRoute(graph.GraphOfNodes.Count);
                 double costOfRoute = routeEvaluator.CalculateCostOfSingleRoute(route, graph);
 
                 if(IsLowestCostOfRouteSoFar(currentLowestCostRoute, costOfRoute))
