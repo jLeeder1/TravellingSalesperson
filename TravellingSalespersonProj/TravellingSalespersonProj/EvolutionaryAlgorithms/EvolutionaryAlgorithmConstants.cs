@@ -5,29 +5,32 @@ namespace TravellingSalespersonProj.EvolutionaryAlgorithms
 {
     public static class EvolutionaryAlgorithmConstants
     {
-        public static int NUMBER_OF_GENERATIONS { get; set; } = 100;
+        public static int NUMBER_OF_GENERATIONS { get; set; }
 
-        public static int TOURNAMENT_SIZE { get; set; } = 10;
+        public static int TOURNAMENT_SIZE { get; set; }
 
-        public static int POPULATION_SIZE { get; set; } = 100;
+        public static int POPULATION_SIZE { get; set; }
 
-        public static double RECOMBINATION_PROBABILITY { get; set; } = 0.75;
+        public static double RECOMBINATION_PROBABILITY { get; set; }
 
-        public static double MUTATION_PROBABILITY { get; set; } = 0.25;
+        public static double MUTATION_PROBABILITY { get; set; }
 
         public static bool IS_USING_ELITISM { get; set; } = false;
 
         public static bool IS_USING_TOURNAMENT { get; set; } = true;
+
+        public static bool IS_USING_RANDOM_START_END_CITY { get; set; }
 
         public static int STARTING_NODE { get; set; } = 1;
 
         public static void ResetValuesToDefault()
         {
             NUMBER_OF_GENERATIONS = 100;
-            TOURNAMENT_SIZE = 10;
-            POPULATION_SIZE = 10;
+            TOURNAMENT_SIZE = 15;
+            POPULATION_SIZE = 100;
             RECOMBINATION_PROBABILITY = 0.75;
             MUTATION_PROBABILITY = 0.25;
+            IS_USING_RANDOM_START_END_CITY = false;
         }
 
         public static void DisplayConstants()
@@ -37,6 +40,7 @@ namespace TravellingSalespersonProj.EvolutionaryAlgorithms
             Console.WriteLine($"Population size: {EvolutionaryAlgorithmConstants.POPULATION_SIZE}");
             Console.WriteLine($"Mutation probability: {EvolutionaryAlgorithmConstants.MUTATION_PROBABILITY}");
             Console.WriteLine($"Recombination probability: {EvolutionaryAlgorithmConstants.RECOMBINATION_PROBABILITY}");
+            Console.WriteLine($"Is using random start end city: {EvolutionaryAlgorithmConstants.IS_USING_RANDOM_START_END_CITY}");
             Console.WriteLine(System.Environment.NewLine);
         }
     }

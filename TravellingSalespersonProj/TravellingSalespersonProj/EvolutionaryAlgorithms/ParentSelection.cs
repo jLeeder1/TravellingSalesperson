@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using TravellingSalespersonProj.LocalSearchTutorial;
 
@@ -52,14 +53,22 @@ namespace TravellingSalespersonProj.EvolutionaryAlgorithms
                 // Sorts the routes by their cost
                 parentSample.Sort((x, y) => x.RouteCost.CompareTo(y.RouteCost));
 
-                // Get best individual (lowest route score) and add them to the parentPopulation
-                Route bestIndividualinTournament = parentSample.First();
-                parentPopulation.Add(bestIndividualinTournament);
+                parentPopulation.Add(PickIndividual(parentSample));
 
                 parentSample.Clear();
             }
 
             return parentPopulation;
+        }
+
+        private Route PickIndividual(List<Route> parentSample)
+        {
+            // Get best individual (lowest route score) and add them to the parentPopulation
+            double seed = Math.Round(parentSample.Count / 2d);
+
+            // This is real bad
+            int elementToPick = random.Next(0, Convert.ToInt32(seed));
+            return parentSample.ElementAt(elementToPick);
         }
 
         public Route[] ParentRouletteSelection(List<Route> currentPopulation, int numberOfParentsNeeded = 2)

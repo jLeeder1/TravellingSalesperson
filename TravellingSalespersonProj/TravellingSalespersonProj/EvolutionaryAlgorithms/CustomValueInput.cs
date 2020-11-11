@@ -23,6 +23,9 @@ namespace TravellingSalespersonProj.EvolutionaryAlgorithms
 
             Console.WriteLine($"4: Recombination probability (double between 0 and 1)");
             EvolutionaryAlgorithmConstants.RECOMBINATION_PROBABILITY = GetDoubleValue();
+
+            Console.WriteLine($"5: Use a randomly differnt start end city for all individuals? (0 for no and 1 for yes)");
+            EvolutionaryAlgorithmConstants.IS_USING_RANDOM_START_END_CITY = GetBoolValue();
         }
 
         private int GetIntValue()
@@ -57,6 +60,18 @@ namespace TravellingSalespersonProj.EvolutionaryAlgorithms
                     Console.WriteLine($"Please enter a valid double");
                 }
             }
+        }
+
+        private bool GetBoolValue()
+        {
+            int myValue = GetIntValue();
+
+            if(myValue == 1)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }

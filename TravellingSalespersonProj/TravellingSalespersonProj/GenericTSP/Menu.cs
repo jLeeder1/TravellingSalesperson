@@ -12,7 +12,6 @@ namespace TravellingSalespersonProj
         private readonly Graph graph;
         private readonly FileReader fileReader;
         private readonly TimeBasedEvaluator timeBasedEvaluator;
-        private readonly EvolutionaryAlgorithmController evolutionaryAlgorithmController;
         private readonly EvolutionaryAlgorithmMenu evolutionaryAlgorithmMenu;
 
         public Menu()
@@ -22,7 +21,6 @@ namespace TravellingSalespersonProj
             this.graph = new Graph();
             this.fileReader = new FileReader();
             this.timeBasedEvaluator = new TimeBasedEvaluator();
-            this.evolutionaryAlgorithmController = new EvolutionaryAlgorithmController();
             this.evolutionaryAlgorithmMenu = new EvolutionaryAlgorithmMenu();
         }
 

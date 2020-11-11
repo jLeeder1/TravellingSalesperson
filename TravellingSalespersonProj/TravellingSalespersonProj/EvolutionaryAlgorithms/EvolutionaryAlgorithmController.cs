@@ -7,10 +7,10 @@ namespace TravellingSalespersonProj.EvolutionaryAlgorithms
 {
     public class EvolutionaryAlgorithmController
     {
+        private IRecombinationStrategy recombination;
         private readonly RandomRouteGenerator randomRouteGenerator;
         private readonly RouteEvaluator routeEvaluator;
         private readonly ParentSelection parentSelection;
-        private readonly Recombination recombination;
         private readonly Mutation mutation;
         private readonly Random random;
 
@@ -27,20 +27,19 @@ namespace TravellingSalespersonProj.EvolutionaryAlgorithms
             routeEvaluator = new RouteEvaluator();
             parentSelection = new ParentSelection();
             parentSelection = new ParentSelection();
-            recombination = new Recombination();
             mutation = new Mutation();
             random = new Random();
 
             parentPopulation = new List<Route>();
             offspringPopulation = new List<Route>();
             BestRouteInGeneration = new Dictionary<int, Route>();
-            
         }
 
-        public Dictionary<int, Route> RunEvolutionaryAlgorithm(int startingNode, Graph graph)
+        public Dictionary<int, Route> RunEvolutionaryAlgorithm(Graph graph)
         {
+            ChooseRecombinationStrategy();
             AddInitialBestRouteForGenerationZero(graph);
-            this.parentPopulation = InitialisePoplulation(startingNode, graph);
+            this.parentPopulation = InitialisePoplulation(graph);
 
             for(int generationNumber = 0; generationNumber < EvolutionaryAlgorithmConstants.NUMBER_OF_GENERATIONS; generationNumber++)
             {
@@ -74,18 +73,13 @@ namespace TravellingSalespersonProj.EvolutionaryAlgorithms
             return BestRouteInGeneration;
         }
 
-        private List<Route> InitialisePoplulation(int startingNode, Graph graph)
+        private List<Route> InitialisePoplulation(Graph graph)
         {
             List<Route> tempPopulation = new List<Route>();
 
             for(int index = 0; index < EvolutionaryAlgorithmConstants.POPULATION_SIZE; index++)
             {
-                if(startingNode == int.MaxValue)
-                {
-                    startingNode = random.Next(1, graph.GraphOfNodes.Count);
-                }
-
-                int[] routeIds = randomRouteGenerator.GenerateSingleRandomRoute(graph.GraphOfNodes.Count, startingNode);
+                int[] routeIds = randomRouteGenerator.GenerateSingleRandomRoute(graph.GraphOfNodes.Count);
                 double routeCost = routeEvaluator.CalculateCostOfSingleRoute(routeIds, graph);
 
                 Route currentRoute = new Route(routeIds, routeCost);
@@ -137,6 +131,18 @@ namespace TravellingSalespersonProj.EvolutionaryAlgorithms
             parentPopulation.Clear();
             parentPopulation.AddRange(offspringPopulation);
             offspringPopulation.Clear();
+        }
+
+        private void ChooseRecombinationStrategy()
+        {
+            if(EvolutionaryAlgorithmConstants.IS_USING_RANDOM_START_END_CITY == false)
+            {
+                recombination = new Recombination();
+            }
+            else
+            {
+                recombination = new RecombinationVariableStartEnd();
+            }
         }
     }
 }

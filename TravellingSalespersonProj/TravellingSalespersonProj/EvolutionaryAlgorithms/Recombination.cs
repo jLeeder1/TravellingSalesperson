@@ -6,7 +6,7 @@ using TravellingSalespersonProj.LocalSearchTutorial;
 
 namespace TravellingSalespersonProj.EvolutionaryAlgorithms
 {
-    public class Recombination
+    public class Recombination : IRecombinationStrategy
     {
         private readonly Random random;
         private readonly TourFormatter tourFormatter;
@@ -19,7 +19,7 @@ namespace TravellingSalespersonProj.EvolutionaryAlgorithms
 
         public List<Route> RunRecombination(Route parentOne, Route parentTwo)
         {
-            if (random.Next(1) < EvolutionaryAlgorithmConstants.RECOMBINATION_PROBABILITY)
+            if (random.NextDouble() < EvolutionaryAlgorithmConstants.RECOMBINATION_PROBABILITY)
             {
                 return new List<Route>() { parentOne, parentTwo };
             }
@@ -40,10 +40,54 @@ namespace TravellingSalespersonProj.EvolutionaryAlgorithms
             return offspring;
         }
 
+        private Route OrderOneCrossover(int[] parentOneRoute, int[] parentTwoRoute, int startEndCity)
+        {
+            int[] offspringOneRoute = new int[parentOneRoute.Length];
+
+            // Cut a random range of elements from the first parent
+            int startingIndex = random.Next(0, parentOneRoute.Length - 1);
+            int endingIndex = random.Next(startingIndex, parentOneRoute.Length - 1);
+
+            // Copy the elements between random range into child one
+            Array.Copy(parentOneRoute, startingIndex, offspringOneRoute, startingIndex, endingIndex - startingIndex);
+
+            // Two iterators to track what element to pull from the parent and where to insert that element in the child
+            int iteratorIndex = endingIndex;
+            int currentPositionInChildRoute = endingIndex;
+            int numElementsToCopy = parentOneRoute.Length - (endingIndex - startingIndex);
+
+            while (numElementsToCopy > 0)
+            {
+                if (iteratorIndex > parentOneRoute.Length - 1)
+                {
+                    iteratorIndex = 0;
+                    continue;
+                }
+
+                if (!offspringOneRoute.Contains(parentTwoRoute[iteratorIndex]))
+                {
+                    offspringOneRoute[currentPositionInChildRoute] = parentTwoRoute[iteratorIndex];
+                    numElementsToCopy--;
+                    currentPositionInChildRoute++;
+                }
+
+                if (currentPositionInChildRoute > offspringOneRoute.Length - 1)
+                {
+                    currentPositionInChildRoute = 0;
+                }
+
+                iteratorIndex++;
+            }
+
+            offspringOneRoute = tourFormatter.AddStartAndEndNodeToRoute(startEndCity, offspringOneRoute);
+
+            return new Route(offspringOneRoute, double.MaxValue);
+        }
+
         /**
          * This will lead to duplicate cities and some being missed
          * Leaving it in to messa round with it later
-         */
+         *
         public List<Route> RecombineParentsToFormChild(Route parentOne, Route parentTwo)
         {
             List<int> childOneRoute = new List<int>();
@@ -51,7 +95,7 @@ namespace TravellingSalespersonProj.EvolutionaryAlgorithms
 
             int dividingIndex = random.Next(0, parentOne.RouteIds.Length);
 
-            for(int index = 0; index < dividingIndex; index++)
+            for (int index = 0; index < dividingIndex; index++)
             {
                 // First part of parent One copied into Child One
                 childOneRoute.Add(parentOne.RouteIds[index]);
@@ -77,49 +121,6 @@ namespace TravellingSalespersonProj.EvolutionaryAlgorithms
 
             return children;
         }
-
-        private Route OrderOneCrossover(int[] parentOneRoute, int[] parentTwoRoute, int startEndCity)
-        {
-            int[] offspringOneRoute = new int[parentOneRoute.Length];
-
-            // Cut a random range of elements from the first parent
-            int startingIndex = random.Next(0, parentOneRoute.Length - 1);
-            int endingIndex = random.Next(startingIndex, parentOneRoute.Length - 1);
-
-            // Copy the elements between random range into child one
-            Array.Copy(parentOneRoute, startingIndex, offspringOneRoute, startingIndex, endingIndex - startingIndex);
-
-            // Two iterators to track what element to pull from the parent and where to insert that element in the child
-            int iteratorIndex = endingIndex;
-            int currentPositionInChildRoute = endingIndex;
-            int numElementsToCopy = parentOneRoute.Length - (endingIndex - startingIndex);
-
-            while (numElementsToCopy > 0)
-            {
-                if(iteratorIndex > parentOneRoute.Length - 1)
-                {
-                    iteratorIndex = 0;
-                    continue;
-                }
-
-                if (!offspringOneRoute.Contains(parentTwoRoute[iteratorIndex]))
-                {
-                    offspringOneRoute[currentPositionInChildRoute] = parentTwoRoute[iteratorIndex];
-                    numElementsToCopy--;
-                    currentPositionInChildRoute++;
-                }
-
-                if(currentPositionInChildRoute > offspringOneRoute.Length - 1)
-                {
-                    currentPositionInChildRoute = 0;
-                }
-
-                iteratorIndex++;
-            }
-
-            offspringOneRoute = tourFormatter.AddStartAndEndNodeToRoute(startEndCity, offspringOneRoute);
-
-            return new Route(offspringOneRoute, double.MaxValue);
-        }
+        */
     }
 }
