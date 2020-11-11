@@ -32,6 +32,20 @@ namespace TravellingSalespersonProj
             return sqrRoot;
         }
 
+        /*
+         * Format: [originx, originy, destinationx, destinationy]
+         */
+        public double CalculateCostOfEdge(int[] edges, Graph graph)
+        {
+            double[] coordinates = GetCoordinatesToCompare(edges[0], edges[1], graph);
+            double xBxA = Math.Pow(coordinates[2] - coordinates[0], 2);
+            double yByA = Math.Pow(coordinates[3] - coordinates[1], 2);
+            double sqrRoot = xBxA + yByA;
+
+            sqrRoot = Math.Sqrt(sqrRoot);
+            return sqrRoot;
+        }
+
         private double[] GetCoordinatesToCompare(int startingNode, int destinationNode, Graph graph)
         {
             double[] coordinatesToCompare = new double[4];

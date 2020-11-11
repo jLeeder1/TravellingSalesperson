@@ -36,10 +36,22 @@ namespace TravellingSalespersonProj.AntColonyOpt
         {
             double pheremoneIncrease = ACOConstants.Q_PHEROMONE_Deposition / route.Length;
 
-            for (int index = 0; index < route.Length - 2; index++)
+            for (int index = 1; index < route.Length - 2; index++)
             {
                 int[] edges = FormatUndirectionalEdges(new int[] { route[index], route[index + 1] });
                 UpdatePheromone(edges, pheremoneIncrease);
+            }
+        }
+
+        public void InitialisePheremoneOnAllEdges(int numberOfCities)
+        {
+            for (int outerIndex = 1; outerIndex < numberOfCities; outerIndex++)
+            {
+                for (int innerIndex = 1; innerIndex < numberOfCities; innerIndex++)
+                {
+                    int[] edges = FormatUndirectionalEdges(new int[] { outerIndex, innerIndex });
+                    UpdatePheromone(edges, ACOConstants.INITIAL_PHEROMONE_LEVEL);
+                }
             }
         }
 
