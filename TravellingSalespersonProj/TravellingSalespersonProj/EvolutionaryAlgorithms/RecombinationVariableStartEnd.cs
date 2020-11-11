@@ -6,7 +6,7 @@ using TravellingSalespersonProj.LocalSearchTutorial;
 
 namespace TravellingSalespersonProj.EvolutionaryAlgorithms
 {
-    public class RecombinationVariableStartEnd
+    public class RecombinationVariableStartEnd : IRecombinationStrategy
     {
         private readonly Random random;
 
@@ -15,7 +15,7 @@ namespace TravellingSalespersonProj.EvolutionaryAlgorithms
             random = new Random();
         }
 
-        public Route RunRecombination(Route parentOne, Route parentTwo)
+        public List<Route> RunRecombination(Route parentOne, Route parentTwo)
         {
             // Initialise offspring route
             int[] offspringRoute = new int[parentOne.RouteIds.Length - 2];

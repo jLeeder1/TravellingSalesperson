@@ -46,7 +46,7 @@ namespace TravellingSalespersonProj.EvolutionaryAlgorithms
 
         private void RunEvolutionaryAlgorithm(Graph graph)
         {
-            Dictionary<int, Route> bestRoutes = evolutionaryAlgorithmController.RunEvolutionaryAlgorithm(EvolutionaryAlgorithmConstants.STARTING_NODE, graph);
+            Dictionary<int, Route> bestRoutes = evolutionaryAlgorithmController.RunEvolutionaryAlgorithm(graph);
             DataDisplay.PrintDictionaryOfBestRoutes(bestRoutes);
             DataDisplay.PrintBestRouteOverall(bestRoutes);
         }

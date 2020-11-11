@@ -7,11 +7,10 @@ namespace TravellingSalespersonProj.EvolutionaryAlgorithms
 {
     public class EvolutionaryAlgorithmController
     {
+        private IRecombinationStrategy recombination;
         private readonly RandomRouteGenerator randomRouteGenerator;
         private readonly RouteEvaluator routeEvaluator;
         private readonly ParentSelection parentSelection;
-        private readonly Recombination recombination;
-        private readonly RecombinationVariableStartEnd recombinationVariableStartEnd;
         private readonly Mutation mutation;
         private readonly Random random;
 
@@ -28,19 +27,17 @@ namespace TravellingSalespersonProj.EvolutionaryAlgorithms
             routeEvaluator = new RouteEvaluator();
             parentSelection = new ParentSelection();
             parentSelection = new ParentSelection();
-            recombination = new Recombination();
-            recombinationVariableStartEnd = new RecombinationVariableStartEnd();
             mutation = new Mutation();
             random = new Random();
 
             parentPopulation = new List<Route>();
             offspringPopulation = new List<Route>();
             BestRouteInGeneration = new Dictionary<int, Route>();
-            
         }
 
-        public Dictionary<int, Route> RunEvolutionaryAlgorithm(int startingNode, Graph graph)
+        public Dictionary<int, Route> RunEvolutionaryAlgorithm(Graph graph)
         {
+            ChooseRecombinationStrategy();
             AddInitialBestRouteForGenerationZero(graph);
             this.parentPopulation = InitialisePoplulation(graph);
 
@@ -58,7 +55,6 @@ namespace TravellingSalespersonProj.EvolutionaryAlgorithms
                     Route parentOne = potentialParents.ElementAt(random.Next(0, potentialParents.Count - 1));
                     Route parentTwo = potentialParents.ElementAt(random.Next(0, potentialParents.Count - 1));
 
-                    //offspringPopulation.Add(recombinationVariableStartEnd.RunRecombination(parentOne, parentTwo));
                     offspringPopulation.AddRange(recombination.RunRecombination(parentOne, parentTwo));
                 }
 
@@ -135,6 +131,18 @@ namespace TravellingSalespersonProj.EvolutionaryAlgorithms
             parentPopulation.Clear();
             parentPopulation.AddRange(offspringPopulation);
             offspringPopulation.Clear();
+        }
+
+        private void ChooseRecombinationStrategy()
+        {
+            if(EvolutionaryAlgorithmConstants.IS_USING_RANDOM_START_END_CITY == false)
+            {
+                recombination = new Recombination();
+            }
+            else
+            {
+                recombination = new RecombinationVariableStartEnd();
+            }
         }
     }
 }
