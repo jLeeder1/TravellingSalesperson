@@ -58,7 +58,8 @@ namespace TravellingSalespersonProj.EvolutionaryAlgorithms
                     Route parentOne = potentialParents.ElementAt(random.Next(0, potentialParents.Count - 1));
                     Route parentTwo = potentialParents.ElementAt(random.Next(0, potentialParents.Count - 1));
 
-                    offspringPopulation.Add(recombinationVariableStartEnd.RunRecombination(parentOne, parentTwo));
+                    //offspringPopulation.Add(recombinationVariableStartEnd.RunRecombination(parentOne, parentTwo));
+                    offspringPopulation.AddRange(recombination.RunRecombination(parentOne, parentTwo));
                 }
 
                 

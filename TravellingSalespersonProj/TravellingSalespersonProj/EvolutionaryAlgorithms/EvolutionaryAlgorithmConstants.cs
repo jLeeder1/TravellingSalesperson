@@ -5,15 +5,15 @@ namespace TravellingSalespersonProj.EvolutionaryAlgorithms
 {
     public static class EvolutionaryAlgorithmConstants
     {
-        public static int NUMBER_OF_GENERATIONS { get; set; } = 100;
+        public static int NUMBER_OF_GENERATIONS { get; set; }
 
-        public static int TOURNAMENT_SIZE { get; set; } = 10;
+        public static int TOURNAMENT_SIZE { get; set; }
 
-        public static int POPULATION_SIZE { get; set; } = 100;
+        public static int POPULATION_SIZE { get; set; }
 
-        public static double RECOMBINATION_PROBABILITY { get; set; } = 0.75;
+        public static double RECOMBINATION_PROBABILITY { get; set; }
 
-        public static double MUTATION_PROBABILITY { get; set; } = 0.25;
+        public static double MUTATION_PROBABILITY { get; set; }
 
         public static bool IS_USING_ELITISM { get; set; } = false;
 
@@ -26,8 +26,8 @@ namespace TravellingSalespersonProj.EvolutionaryAlgorithms
         public static void ResetValuesToDefault()
         {
             NUMBER_OF_GENERATIONS = 100;
-            TOURNAMENT_SIZE = 10;
-            POPULATION_SIZE = 10;
+            TOURNAMENT_SIZE = 15;
+            POPULATION_SIZE = 100;
             RECOMBINATION_PROBABILITY = 0.75;
             MUTATION_PROBABILITY = 0.25;
             IS_USING_RANDOM_START_END_CITY = true;

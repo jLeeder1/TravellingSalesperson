@@ -19,7 +19,7 @@ namespace TravellingSalespersonProj.EvolutionaryAlgorithms
 
         public List<Route> RunRecombination(Route parentOne, Route parentTwo)
         {
-            if (random.Next(1) < EvolutionaryAlgorithmConstants.RECOMBINATION_PROBABILITY)
+            if (random.NextDouble() < EvolutionaryAlgorithmConstants.RECOMBINATION_PROBABILITY)
             {
                 return new List<Route>() { parentOne, parentTwo };
             }
