@@ -26,10 +26,10 @@ namespace TravellingSalespersonProj.EvolutionaryAlgorithms
         public static void ResetValuesToDefault()
         {
             NUMBER_OF_GENERATIONS = 100;
-            TOURNAMENT_SIZE = 15;
+            TOURNAMENT_SIZE = 20;
             POPULATION_SIZE = 100;
-            RECOMBINATION_PROBABILITY = 0.75;
-            MUTATION_PROBABILITY = 0.25;
+            RECOMBINATION_PROBABILITY = 0.65;
+            MUTATION_PROBABILITY = 0.35;
             IS_USING_RANDOM_START_END_CITY = false;
         }
 
