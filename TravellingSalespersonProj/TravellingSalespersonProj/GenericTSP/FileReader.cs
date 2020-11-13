@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Reflection;
 
 namespace TravellingSalespersonProj
 {
@@ -7,27 +8,33 @@ namespace TravellingSalespersonProj
     {
         public void ReadFileOfTypeCSV(Graph graph)
         {
-            try
             {
-                // Open the text file using a stream reader.
-                using (var sr = new StreamReader("C:\\Users\\joshu\\Documents\\repos\\TravelingSalesperson\\TravellingSalespersonProj\\TravellingSalespersonProj\\Resources\\ulysses.csv"))
-                {
-                    while (!sr.EndOfStream)
-                    {
-                        string[] values = sr.ReadLine().Split(',');
+                Assembly assembly = Assembly.GetExecutingAssembly();
+                //string resourceName = "TravellingSalespersonProj.Resources.ulysses.csv";
+                string resourceName = "TravellingSalespersonProj.Resources.test.csv";
+                //string resourceName = "C:\\Users\\joshu\\Downloads\\test.csv"; this DOES NOT WORK NEED TO ADD FILE TO RESOURCES
 
-                        if(IsRowWithCorrectStartingData(values))
+                try
+                {
+                    using Stream stream = assembly.GetManifestResourceStream(resourceName);
+                    using StreamReader reader = new StreamReader(stream);
+                    while (!reader.EndOfStream)
+                    {
+                        string[] values = reader.ReadLine().Split(',');
+
+                        if (IsRowWithCorrectStartingData(values))
                         {
-                            double[] coordinates = { double.Parse(values[1]), double.Parse(values[2]) };
+                            double[] coordinates = { double.Parse(values[1]), double.Parse(values[2])};
                             graph.AddNodeToGraph(int.Parse(values[0]), coordinates);
                         }
                     }
+
                 }
-            }
-            catch (IOException e)
-            {
-                Console.WriteLine("The file could not be read:");
-                Console.WriteLine(e.Message);
+                catch (IOException e)
+                {
+                    Console.WriteLine("The file could not be read");
+                    Console.WriteLine(e.Message);
+                }
             }
         }
 
