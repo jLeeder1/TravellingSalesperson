@@ -20,4 +20,18 @@
     </EmbeddedResource>
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Remove="Resources/ulysses.csv" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources/ulysses.csv" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="Resources/test.csv" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources/test.csv" />
+  </ItemGroup>
+  
 </Project>
