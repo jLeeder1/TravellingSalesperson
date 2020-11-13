@@ -29,10 +29,14 @@ namespace TravellingSalespersonProj.AntColonyOpt
 
         public void DecayAllPheromones()
         {
-            foreach(KeyValuePair<EdgeStructure, double> entry in pheronomoneValues)
+            Dictionary<EdgeStructure, double> newPheronomoneValues = new Dictionary<EdgeStructure, double>();
+
+            foreach (KeyValuePair<EdgeStructure, double> entry in pheronomoneValues)
             {
-                UpdatePheromone(entry.Key, entry.Value * ACOConstants.RHO_PHEROMONE_DECAY);
+                newPheronomoneValues[entry.Key] = entry.Value * ACOConstants.RHO_PHEROMONE_DECAY;
             }
+
+            pheronomoneValues = newPheronomoneValues;
         }
 
         public void UpdatePheromoneForSingleRoute(int[] route)
