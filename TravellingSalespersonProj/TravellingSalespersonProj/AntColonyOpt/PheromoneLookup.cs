@@ -85,15 +85,5 @@ namespace TravellingSalespersonProj.AntColonyOpt
 
             return egdes;
         }
-
-        public new bool Equals(object x, object y)
-        {
-            throw new NotImplementedException();
-        }
-
-        public int GetHashCode(object obj)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

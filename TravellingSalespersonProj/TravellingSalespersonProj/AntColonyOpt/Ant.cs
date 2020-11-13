@@ -105,11 +105,14 @@ namespace TravellingSalespersonProj.AntColonyOpt
                 return componentProducts;
             }
 
-            List<double> summedProducts = new List<double>();
+            List<double> summedProducts = new List<double>()
+            {
+                0.0
+            };
 
             for (int index = 0; index <= componentProducts.Count - 2; index++)
             {
-                summedProducts.Add(componentProducts.ElementAt(index) + componentProducts.ElementAt(index + 1));
+                summedProducts.Add(componentProducts.ElementAt(index) + componentProducts.ElementAt(index + 1) + summedProducts.ElementAt(index));
             }
 
             return summedProducts;
