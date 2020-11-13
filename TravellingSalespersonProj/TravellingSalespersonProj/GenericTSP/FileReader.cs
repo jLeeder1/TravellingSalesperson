@@ -12,6 +12,7 @@ namespace TravellingSalespersonProj
                 Assembly assembly = Assembly.GetExecutingAssembly();
                 //string resourceName = "TravellingSalespersonProj.Resources.ulysses.csv";
                 string resourceName = "TravellingSalespersonProj.Resources.test.csv";
+                //string resourceName = "C:\\Users\\joshu\\Downloads\\test.csv"; this DOES NOT WORK NEED TO ADD FILE TO RESOURCES
 
                 try
                 {
