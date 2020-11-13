@@ -41,7 +41,7 @@ namespace TravellingSalespersonProj.AntColonyOpt
         {
             int startEndCity = InitialiseFirstCity(graph);
 
-            while (CurrentRoute.Count <= graph.GraphOfNodes.Count)
+            while (CurrentRoute.Count <= graph.GraphOfNodes.Count - 1)
             {
                 int city = ChooseNextCityToVisit(pheromoneLookup, routeEvaluator, graph);
                 CurrentRoute.Add(city);
@@ -72,7 +72,7 @@ namespace TravellingSalespersonProj.AntColonyOpt
 
         private int ChooseNextCityToVisit(PheromoneLookup pheromoneLookup, RouteEvaluator routeEvaluator, Graph graph)
         {
-            int currentCity = CurrentRoute.Count - 1;
+            int currentCity = CurrentRoute.Last();
             List<double> componentProducts = new List<double>();
             List<int> citiesBeingConsideredToTravelTo = new List<int>();
 
@@ -84,6 +84,7 @@ namespace TravellingSalespersonProj.AntColonyOpt
                 }
                 citiesBeingConsideredToTravelTo.Add(cityToConsiderTravellingTo);
 
+                double pheremoneOnEdge = pheromoneLookup.GetPheromoneLevelForEdge(new int[] { currentCity, cityToConsiderTravellingTo });
                 double pheremoneComponent = Math.Pow(pheromoneLookup.GetPheromoneLevelForEdge(new int[] { currentCity, cityToConsiderTravellingTo }), ACOConstants.ALPHA_PHEROMONE_IMPORTANCE);
                 double edgeComponent = Math.Pow(routeEvaluator.CalculateCostOfEdge(new int[] { currentCity, cityToConsiderTravellingTo }, graph), ACOConstants.BETA_EDGE_IMPORTANCE);
 
@@ -99,6 +100,11 @@ namespace TravellingSalespersonProj.AntColonyOpt
 
         private List<double> SumComponentProductsCumulatively(List<double> componentProducts)
         {
+            if (componentProducts.Count == 1)
+            {
+                return componentProducts;
+            }
+
             List<double> summedProducts = new List<double>();
 
             for (int index = 0; index <= componentProducts.Count - 2; index++)
