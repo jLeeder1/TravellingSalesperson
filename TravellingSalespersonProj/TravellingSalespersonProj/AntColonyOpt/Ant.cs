@@ -107,12 +107,12 @@ namespace TravellingSalespersonProj.AntColonyOpt
 
             List<double> summedProducts = new List<double>()
             {
-                0.0
+                componentProducts.First()
             };
 
             for (int index = 0; index <= componentProducts.Count - 2; index++)
             {
-                summedProducts.Add(componentProducts.ElementAt(index) + componentProducts.ElementAt(index + 1) + summedProducts.ElementAt(index));
+                summedProducts.Add(summedProducts.ElementAt(index) + componentProducts.ElementAt(index + 1));
             }
 
             return summedProducts;
@@ -123,11 +123,11 @@ namespace TravellingSalespersonProj.AntColonyOpt
             double boundary = random.NextDouble();
             boundary *= componentProducts.Last();
 
-            for(int cityToMoveTo = 0; cityToMoveTo < componentProducts.Count - 1; cityToMoveTo++)
+            for(int cityToMoveTo = 1; cityToMoveTo < componentProducts.Count - 1; cityToMoveTo++)
             {
                 if(boundary < componentProducts.ElementAt(cityToMoveTo))
                 {
-                    return citiesBeingConsideredToTravelTo.ElementAt(cityToMoveTo);
+                    return citiesBeingConsideredToTravelTo.ElementAt(cityToMoveTo - 1);
                 }
             }
 
