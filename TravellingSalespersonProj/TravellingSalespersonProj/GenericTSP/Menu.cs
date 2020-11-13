@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using TravellingSalespersonProj.AntColonyOpt;
 using TravellingSalespersonProj.EvolutionaryAlgorithms;
 using TravellingSalespersonProj.LocalSearchTutorial;
 
@@ -13,6 +14,7 @@ namespace TravellingSalespersonProj
         private readonly FileReader fileReader;
         private readonly TimeBasedEvaluator timeBasedEvaluator;
         private readonly EvolutionaryAlgorithmMenu evolutionaryAlgorithmMenu;
+        private readonly ACOController aCOController;
 
         public Menu()
         {
@@ -22,6 +24,7 @@ namespace TravellingSalespersonProj
             this.fileReader = new FileReader();
             this.timeBasedEvaluator = new TimeBasedEvaluator();
             this.evolutionaryAlgorithmMenu = new EvolutionaryAlgorithmMenu();
+            this.aCOController = new ACOController();
         }
 
         public void RunMenu()
@@ -58,6 +61,10 @@ namespace TravellingSalespersonProj
                         ReadGraphFromFile();
                         evolutionaryAlgorithmMenu.RunMenu(graph);
                         break;
+                    case ConsoleKey.D7:
+                        ReadGraphFromFile();
+                        RunAco(graph);
+                        break;
                     default:
                         isProgramStillOpen = false;
                         break;
@@ -74,6 +81,7 @@ namespace TravellingSalespersonProj
             Console.WriteLine($"4: Run ulysses16.csv with time based random search");
             Console.WriteLine($"5: Run local search");
             Console.WriteLine($"6: Run evolutionary algorithm");
+            Console.WriteLine($"7: Run ant colony optimisation algorithm");
             Console.WriteLine($"Press enter key to end Program");
         }
 
@@ -103,6 +111,13 @@ namespace TravellingSalespersonProj
             LocalSearch localSearch = new LocalSearch();
             Route bestRoute = localSearch.RunLocalSearch(graph, randomRouteGenerator.GenerateSingleRandomRoute(graph.GraphOfNodes.Count));
             DataDisplay.PrintRouteAndCalculation(bestRoute.RouteIds, bestRoute.RouteCost);
+        }
+
+        private void RunAco(Graph graph)
+        {
+            Dictionary<int, Route> acoResult =  aCOController.RunACO(graph);
+            DataDisplay.PrintDictionaryOfBestRoutes(acoResult);
+            DataDisplay.PrintBestRouteOverall(acoResult);
         }
 
         private void ReadGraphFromFile()

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using TravellingSalespersonProj.LocalSearchTutorial;
 
 namespace TravellingSalespersonProj.AntColonyOpt
@@ -8,45 +9,129 @@ namespace TravellingSalespersonProj.AntColonyOpt
     {
         public Route AntRoute { get; set; }
 
-        private readonly int startEndCity;
+        public List<int> VisitedCities { get; set; }
+        public List<int> CurrentRoute { get; set; }
 
-        public Ant(int startEndCity)
+        private readonly Random random;
+
+        public Ant()
         {
-            this.startEndCity = startEndCity;
+            VisitedCities = new List<int>();
+            CurrentRoute = new List<int>();
+            random = new Random();
         }
 
         public void ConstructGreedyRoute(Graph graph, RouteEvaluator routeEvaluator)
         {
-            List<int> visitedCities = new List<int>();
-            List<int> currentRoute = new List<int>();
+            int startEndCity = InitialiseFirstCity(graph);
 
-            visitedCities.Add(startEndCity);
-            currentRoute.Add(startEndCity);
-
-            while(currentRoute.Count <= graph.GraphOfNodes.Count)
+            while(CurrentRoute.Count <= graph.GraphOfNodes.Count)
             {
-                currentRoute.Add(graph.GetClosestCity(currentRoute.Count - 1, visitedCities));
+                CurrentRoute.Add(graph.GetClosestCity(CurrentRoute.Count - 1, VisitedCities));
             }
 
-            currentRoute.Add(startEndCity);
-            int[] currentRouteArray = currentRoute.ToArray();
+            CurrentRoute.Add(startEndCity);
+            int[] CurrentRouteArray = CurrentRoute.ToArray();
 
-            double routeCost = routeEvaluator.CalculateCostOfSingleRoute(currentRouteArray, graph);
-            AntRoute = new Route(currentRouteArray, routeCost);
+            double routeCost = routeEvaluator.CalculateCostOfSingleRoute(CurrentRouteArray, graph);
+            AntRoute = new Route(CurrentRouteArray, routeCost);
         }
 
-        private int ChooseNextCityToVisit(PheromoneLookup pheromoneLookup, RouteEvaluator routeEvaluator)
+        public Route WalkRoute(PheromoneLookup pheromoneLookup, RouteEvaluator routeEvaluator, Graph graph)
         {
-            List<int> visitedCities = new List<int>();
-            List<int> currentRoute = new List<int>();
+            int startEndCity = InitialiseFirstCity(graph);
 
-            // Pheremones on edge i -> j
+            while (CurrentRoute.Count <= graph.GraphOfNodes.Count - 1)
+            {
+                int city = ChooseNextCityToVisit(pheromoneLookup, routeEvaluator, graph);
+                CurrentRoute.Add(city);
+                VisitedCities.Add(city);
+            }
 
-            // Cost of edge i -> j
+            CurrentRoute.Add(startEndCity);
 
+            AntRoute = new Route(CurrentRoute.ToArray(), double.MaxValue);
+            return AntRoute;
+        }
 
+        public void ClearRoutes()
+        {
+            VisitedCities.Clear();
+            CurrentRoute.Clear();
+        }
 
-            return 0;
+        // Trash programming right here
+        private int InitialiseFirstCity(Graph graph)
+        {
+            int randomStartCity = random.Next(1, graph.GraphOfNodes.Count + 1);
+            CurrentRoute.Add(randomStartCity);
+            VisitedCities.Add(randomStartCity);
+
+            return randomStartCity;
+        }
+
+        private int ChooseNextCityToVisit(PheromoneLookup pheromoneLookup, RouteEvaluator routeEvaluator, Graph graph)
+        {
+            int currentCity = CurrentRoute.Last();
+            List<double> componentProducts = new List<double>();
+            List<int> citiesBeingConsideredToTravelTo = new List<int>();
+
+            for (int cityToConsiderTravellingTo = 1; cityToConsiderTravellingTo <= graph.GraphOfNodes.Count; cityToConsiderTravellingTo++)
+            {
+                if(VisitedCities.Contains(cityToConsiderTravellingTo))
+                {
+                    continue;
+                }
+                citiesBeingConsideredToTravelTo.Add(cityToConsiderTravellingTo);
+
+                double pheremoneOnEdge = pheromoneLookup.GetPheromoneLevelForEdge(new int[] { currentCity, cityToConsiderTravellingTo });
+                double pheremoneComponent = Math.Pow(pheromoneLookup.GetPheromoneLevelForEdge(new int[] { currentCity, cityToConsiderTravellingTo }), ACOConstants.ALPHA_PHEROMONE_IMPORTANCE);
+                double edgeComponent = Math.Pow(routeEvaluator.CalculateCostOfEdge(new int[] { currentCity, cityToConsiderTravellingTo }, graph), ACOConstants.BETA_EDGE_IMPORTANCE);
+
+                componentProducts.Add(pheremoneComponent * edgeComponent);
+            }
+
+            componentProducts = SumComponentProductsCumulatively(componentProducts);
+
+            int cityToMoveTo = PickCityBasedOnComponents(componentProducts, citiesBeingConsideredToTravelTo);
+
+            return cityToMoveTo;
+        }
+
+        private List<double> SumComponentProductsCumulatively(List<double> componentProducts)
+        {
+            if (componentProducts.Count == 1)
+            {
+                return componentProducts;
+            }
+
+            List<double> summedProducts = new List<double>()
+            {
+                0.0
+            };
+
+            for (int index = 0; index <= componentProducts.Count - 2; index++)
+            {
+                summedProducts.Add(componentProducts.ElementAt(index) + componentProducts.ElementAt(index + 1) + summedProducts.ElementAt(index));
+            }
+
+            return summedProducts;
+        }
+
+        private int PickCityBasedOnComponents(List<double> componentProducts, List<int> citiesBeingConsideredToTravelTo)
+        {
+            double boundary = random.NextDouble();
+            boundary *= componentProducts.Last();
+
+            for(int cityToMoveTo = 0; cityToMoveTo < componentProducts.Count - 1; cityToMoveTo++)
+            {
+                if(boundary < componentProducts.ElementAt(cityToMoveTo))
+                {
+                    return citiesBeingConsideredToTravelTo.ElementAt(cityToMoveTo);
+                }
+            }
+
+            return citiesBeingConsideredToTravelTo.Last();
         }
     }
 }

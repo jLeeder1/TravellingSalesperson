@@ -1,24 +1,27 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace TravellingSalespersonProj.AntColonyOpt
 {
     public class PheromoneLookup
     {
         // NOTE in this dictionary nodes are always stored [lowerIntValue, higherIntValue] for the key
-        private Dictionary<int[], double> pheronomoneValues;
+        private Dictionary<EdgeStructure, double> pheronomoneValues;
 
         public PheromoneLookup()
         {
-            pheronomoneValues = new Dictionary<int[], double>();
+            pheronomoneValues = new Dictionary<EdgeStructure, double>();
         }
 
         public double GetPheromoneLevelForEdge(int[] edges)
         {
             edges = FormatUndirectionalEdges(edges);
-
-            if (pheronomoneValues.ContainsKey(edges))
+            EdgeStructure edgeStructure = new EdgeStructure(edges[0], edges[1]);
+            
+            if (pheronomoneValues.ContainsKey(edgeStructure))
             {
-                return pheronomoneValues[edges];
+                return pheronomoneValues[edgeStructure];
             }
 
             return double.MaxValue;
@@ -26,24 +29,40 @@ namespace TravellingSalespersonProj.AntColonyOpt
 
         public void DecayAllPheromones()
         {
-            foreach(KeyValuePair<int[], double> entry in pheronomoneValues)
+            Dictionary<EdgeStructure, double> newPheronomoneValues = new Dictionary<EdgeStructure, double>();
+
+            foreach (KeyValuePair<EdgeStructure, double> entry in pheronomoneValues)
             {
-                UpdatePheromone(entry.Key, entry.Value * ACOConstants.RHO_PHEROMONE_DECAY);
+                newPheronomoneValues[entry.Key] = entry.Value * ACOConstants.RHO_PHEROMONE_DECAY;
             }
+
+            pheronomoneValues = newPheronomoneValues;
         }
 
         public void UpdatePheromoneForSingleRoute(int[] route)
         {
             double pheremoneIncrease = ACOConstants.Q_PHEROMONE_Deposition / route.Length;
 
-            for (int index = 0; index < route.Length - 2; index++)
+            for (int index = 1; index < route.Length - 2; index++)
             {
                 int[] edges = FormatUndirectionalEdges(new int[] { route[index], route[index + 1] });
-                UpdatePheromone(edges, pheremoneIncrease);
+                UpdatePheromone(new EdgeStructure(edges[0], edges[1]), pheremoneIncrease);
             }
         }
 
-        private void UpdatePheromone(int[] key, double newPheronmoneLevel)
+        public void InitialisePheremoneOnAllEdges(int numberOfCities)
+        {
+            for (int outerIndex = 1; outerIndex <= numberOfCities - 1; outerIndex++)
+            {
+                for (int innerIndex = outerIndex + 1; innerIndex <= numberOfCities; innerIndex++)
+                {
+                    UpdatePheromone(new EdgeStructure(outerIndex, innerIndex), ACOConstants.INITIAL_PHEROMONE_LEVEL);
+                    //Console.WriteLine($"The value at [{outerIndex}, {innerIndex}] is {pheronomoneValues[new int[] { outerIndex, innerIndex }]}");
+                }
+            }
+        }
+
+        private void UpdatePheromone(EdgeStructure key, double newPheronmoneLevel)
         {
             pheronomoneValues[key] = newPheronmoneLevel;
         }
